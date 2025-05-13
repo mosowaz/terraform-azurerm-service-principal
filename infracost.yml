@@ -1,0 +1,7 @@
+# Infracost configuration for VS Code extension
+version: 0.1
+currency: CAD
+projects:
+  - path: .
+    terraform_var_files:
+      - terraform.tfvars

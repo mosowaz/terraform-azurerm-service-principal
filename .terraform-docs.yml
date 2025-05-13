@@ -6,7 +6,7 @@ sections:
   show: all
 
 recursive:
-  enabled: true
+  enabled: false
   
 sort:
   enabled: true
@@ -16,7 +16,7 @@ content: |-
   {{ .Header }}
 
   ```hcl
-  {{ include "_main_example.tf" }}
+  {{ include "_example.tf" }}
   ``` 
 
   {{ .Requirements }}

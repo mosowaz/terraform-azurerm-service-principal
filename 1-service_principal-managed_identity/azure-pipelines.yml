@@ -1,0 +1,38 @@
+name: 'Build and Release Pipelines $(Date:yyyy-MM-dd)_v$(Rev:rr)'
+
+pr: none
+trigger: none
+    
+variables: 
+- group: 'service-connection'
+- name: system.debug
+  value: 'true'
+- name: RGName
+  value: "rg-ADO-2"            
+- name: StorageAccName
+  value: "mystorageacct16425"  
+- name: ContainerName
+  value: "storage-container"         
+- name: ADO_Environment
+  value: "Staging"
+- name: Pipeline_Agent
+  value: 'My Agents'
+- name: SKIPPED_CHECKS
+  value: ''
+
+  # Using build_template or ci_template pipeline based on branch condition
+stages: 
+- ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:  
+  - template: pipeline_templates/release_template.yml
+    parameters:  
+      TerraformDirectory: '1-service_principal-managed_identity'
+      infrastructure: 'spn-identity'
+      tfplan: 'spn.tfplan'
+      BlobName: 'spn.tfstate'
+- ${{ else }}:
+  - template: pipeline_templates/build_template.yml
+    parameters: 
+      TerraformDirectory: '1-service_principal-managed_identity'
+      infrastructure: 'spn-identity'
+      tfplan: 'spn.tfplan'
+      BlobName: 'spn.tfstate'

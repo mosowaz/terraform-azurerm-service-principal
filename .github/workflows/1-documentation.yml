@@ -1,0 +1,65 @@
+name: Generate terraform docs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - '1-service_principal-managed_identity/**'
+      - '.github/workflows/1-documentation.yml'
+    tags: 
+      - '*'
+env: 
+  CURRENT_PROJECT: '1-service_principal-managed_identity'
+
+jobs:
+  terraform-docs:
+    runs-on: ubuntu-latest
+    environment: '1-service_principal-managed_identity'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # fetch all commits for all branches
+          ref: ${{github.ref}}  # checkout branch that triggered the event
+
+      - name: Get most recent commit message
+        id: last_commit
+        run: echo "::set-output name=message::$(git log -1 --pretty=%B)"    
+
+      - name: Render terraform docs inside the README.md and push changes back to PR branch
+        uses: terraform-docs/gh-actions@v1.3.0
+        with:
+          working-dir: "${{ env.CURRENT_PROJECT }}"   # directory where terraform files are located
+          output-file: README.md                              # relative file-path/to/working-dir
+          output-method: inject
+          git-push: "true"
+          config-file: .terraform-docs.yml  # absolute path/to/file
+          git-commit-message: "${{ steps.last_commit.outputs.message }}"  # use last commit message
+
+      - name: Trigger a run in Azure pipelines    
+        uses: Azure/pipelines@v1
+        with:
+          azure-devops-project-url: 'https://dev.azure.com/MosesOwaseye/Service%20Principal%20and%20Managed%20Identity'
+          azure-pipeline-name: 'Deploy Resources' # name of the Azure pipeline to be triggered
+          azure-devops-token: '${{ secrets.AZURE_DEVOPS_TOKEN }}'
+          azure-pipeline-variables: '{
+                                       "TerraformDirectory": "${{ vars.TERRAFORMDIRECTORY }}", 
+                                       "infrastructure": "${{ vars.INFRASTRUCTURE }}",
+                                       "tfplan": "${{ vars.TFPLAN }}",
+                                       "BlobName": "${{ vars.BLOBNAME }}",
+                                       "RGName": "${{ vars.RGNAME }}",
+                                       "StorageAccName": "${{ vars.STORAGEACCNAME }}",
+                                       "ContainerName": "${{ vars.CONTAINERNAME }}",
+                                       "ADO_Environment": "${{ vars.ADO_ENVIRONMENT }}",
+                                       "Pipeline_Agent": "${{ vars.PIPELINE_AGENT }}",
+                                       "SPN2-client-id": "${{ secrets.SPN2_CLIENT_ID }}",
+                                       "SPN2-tenant-id": "${{ secrets.SPN2_TENANT_ID }}",
+                                       "SPN2-client-secret": "${{ secrets.SPN2_CLIENT_SECRET }}",
+                                       "SPN2-subscription-id": "${{ secrets.SPN2_SUBSCRIPTION_ID }}"
+                                    }'
