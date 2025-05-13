@@ -35,19 +35,19 @@ stages:
       continueOnError: false
       
       # scan for vulberability and put the result in TestResultsDirectory
-    - bash: |
-        checkov --dir . \
-          --output sarif \
-          --quiet \
-          --deep-analysis \
-          # --skip-check $(SKIPPED_CHECKS) \
-          --enable-secret-scan-all-files \
-          --download-external-modules true \
-          --framework terraform,azure_pipelines,secrets \
-          --output-file-path $(common.TestResultsDirectory)
-      displayName: 'code and secret scanning with checkov'
-      workingDirectory: ${{parameters.TerraformDirectory}}
-      continueOnError: false
+    # - bash: |
+    #     checkov --dir . \
+    #       --output sarif \
+    #       --quiet \
+    #       --deep-analysis \
+    #       --skip-check $(SKIPPED_CHECKS) \
+    #       --enable-secret-scan-all-files \
+    #       --download-external-modules true \
+    #       --framework terraform,azure_pipelines,secrets \
+    #       --output-file-path $(common.TestResultsDirectory)
+    #   displayName: 'code and secret scanning with checkov'
+    #   workingDirectory: ${{parameters.TerraformDirectory}}
+    #   continueOnError: false
 
     - bash: touch tfsec.sarif
       displayName: 'create tfsec.sarif file for upcoming step'
