@@ -1,17 +1,17 @@
 name: 'Build and Release Pipelines $(Date:yyyy-MM-dd)_v$(Rev:rr)'
 
 pr: none
-trigger: none
-  # branches:
-  #   include:
-  #   - dev
-  #   - main
-  # paths:
-  #   include:
-  #   - '1-service_principal-managed_identity'
-  # tags: 
-  #   include:
-  #   - '*'
+trigger:
+  branches:
+    include:
+    - dev
+    - main
+  paths:
+    include:
+    - '1-service_principal-managed_identity'
+  tags: 
+    include:
+    - '*'
     
 variables: 
 - group: 'service-connection'

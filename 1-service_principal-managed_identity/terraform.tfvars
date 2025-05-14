@@ -4,5 +4,5 @@ resource_group = {
 }
 
 use_spn_with_secret = true
-use_spn_with_oidc = false
-use_msi = false
+use_spn_with_oidc   = false
+use_msi             = false

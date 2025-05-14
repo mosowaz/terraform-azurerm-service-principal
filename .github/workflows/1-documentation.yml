@@ -1,16 +1,16 @@
 name: Generate terraform docs
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - dev
-      - main
-    paths:
-      - '1-service_principal-managed_identity/**'
-      - '.github/workflows/**'
-    tags: 
-      - '*'
+# on:
+#   workflow_dispatch:
+#   push:
+#     branches:
+#       - dev
+#       - main
+#     paths:
+#       - '1-service_principal-managed_identity/**'
+#       - '.github/workflows/**'
+#     tags: 
+#       - '*'
 env: 
   CURRENT_PROJECT: '1-service_principal-managed_identity'
 

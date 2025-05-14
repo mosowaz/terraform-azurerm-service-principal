@@ -40,7 +40,6 @@ stages:
           --output sarif \
           --quiet \
           --deep-analysis \
-          --skip-check $(SKIPPED_CHECKS) \
           --enable-secret-scan-all-files \
           --download-external-modules true \
           --framework terraform,azure_pipelines,secrets \
