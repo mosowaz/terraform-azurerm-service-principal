@@ -8,7 +8,7 @@ on:
       - main
     paths:
       - '1-service_principal-managed_identity/**'
-      - '.github/workflows/1-documentation.yml'
+      - '.github/workflows/**'
     tags: 
       - '*'
 env: 
