@@ -41,7 +41,7 @@ variable "use_existing" {
 }
 
 variable "app_role_ids" {
-  type = list(string)
+  type        = list(string)
   description = <<-DESCRIPTION
     API permission for required by the service principal running "terraform apply"
     "Application.ReadWrite.All"
