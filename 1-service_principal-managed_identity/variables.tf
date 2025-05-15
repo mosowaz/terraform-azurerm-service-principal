@@ -39,3 +39,12 @@ variable "use_existing" {
     When false, an import error will be raised for any pre-existing service principal.
   DESCRIPTION
 }
+
+variable "app_role_ids" {
+  type = list(string)
+  description = <<-DESCRIPTION
+    API permission for required by the service principal running "terraform apply"
+    "Application.ReadWrite.All"
+    "Directory.ReadWrite.All"
+  DESCRIPTION
+}
