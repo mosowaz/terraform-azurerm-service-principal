@@ -8,22 +8,27 @@ variable "resource_group" {
 
 variable "use_spn_with_secret" {
   type        = bool
-  description = "should service principal with secret be used"
+  description = "Should the Service Principal be used to authenticate with Client Secret?"
 }
 
 variable "use_spn_with_oidc" {
   type        = bool
-  description = "Should service principal with OIDC be used"
+  description = "Should the Service Principal be used to authenticate with OpenID Connect?"
+}
+
+variable "use_spn_with_certificate" {
+  type        = bool
+  description = "Should the Service Principal be used to authenticate with Client Certificate?"
 }
 
 variable "use_msi" {
   type        = bool
-  description = "Should managed identity be used"
+  description = "Should Managed Identity be used for authentication?"
 }
 
 variable "app_display_name" {
   type        = string
-  default     = "spn_with_secret"
+  default     = "My_Automation_Account"
   description = "The display name of the application associated with this service principal."
 }
 
@@ -42,9 +47,10 @@ variable "use_existing" {
 
 variable "app_role_ids" {
   type        = list(string)
-  description = <<-DESCRIPTION
-    API permission for required by the service principal running "terraform apply"
-    "Application.ReadWrite.All"
-    "Directory.ReadWrite.All"
-  DESCRIPTION
+  description =  "API permissions required by the service principal running terraform apply"
+}
+
+variable "iam_roles" {
+  type        = list(string)
+  description = "IAM roles required for the Service Principal to perform operations"
 }

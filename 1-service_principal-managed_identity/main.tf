@@ -5,6 +5,8 @@ terraform {
 
 data "azuread_client_config" "current" {}
 
+data "azurerm_subscription" "primary" {}
+
 # Needed to get the object_id of current SPN
 data "azuread_service_principal" "spn" {
   display_name = "SPN-ADO-2"
@@ -20,6 +22,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.resource_group.location
 }
 
+# Grant "owner" role to current user/sevice principal for the resource group
 resource "azurerm_role_assignment" "owner" {
   for_each = toset([data.azuread_client_config.current.object_id,
   data.azuread_service_principal.spn.object_id])
