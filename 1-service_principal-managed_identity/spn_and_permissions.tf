@@ -11,23 +11,11 @@ resource "azuread_service_principal" "service_principal" {
   use_existing                 = var.use_existing
 }
 
-# Azure Active Directory role permissions required for service principal
-resource "azuread_directory_role" "directory_roles" {
-  for_each     = toset(["Application administrator", "Azure DevOps Administrator", "Directory Writers", "Directory Readers"])
-  display_name = each.value
-}
-
-resource "azuread_directory_role_assignment" "dir_role_assign" {
-  for_each            = azuread_directory_role.directory_roles
-  role_id             = each.value.template_id
-  principal_object_id = data.azuread_service_principal.spn.object_id
-}
-
 # Assign IAM roles to Service Principal
 resource "azurerm_role_assignment" "iam_roles" {
   for_each = toset(var.iam_roles)
 
-  scope                = try(data.azurerm_subscription.primary.id, azurerm_resource_group.rg)
+  scope                = azurerm_resource_group.rg.id
   role_definition_name = each.value
   principal_id         = azuread_service_principal.service_principal.object_id
 }
