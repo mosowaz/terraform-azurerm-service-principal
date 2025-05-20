@@ -47,7 +47,7 @@ variable "use_existing" {
 
 variable "app_role_ids" {
   type        = list(string)
-  description =  "API permissions required by the service principal running terraform apply"
+  description = "API permissions required by the service principal running terraform apply"
 }
 
 variable "iam_roles" {

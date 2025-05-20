@@ -12,9 +12,9 @@ app_role_ids = ["1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9", # Application.ReadWrite.
   "19dbc75e-c2e2-444c-a770-ec69d8559fc7",               # Directory.ReadWrite.All
   "dbb9058a-0e50-45d7-ae91-66909b5d4664",               # Domain.Read.All
   "62a82d76-70ea-41e2-9197-370581804d09",               # Group.ReadWrite.All
-  "741f803b-c850-494e-b5df-cde7c675a1ca"]                 # User.ReadWrite.All
+"741f803b-c850-494e-b5df-cde7c675a1ca"]                 # User.ReadWrite.All
 
 iam_roles = ["Contributor",
   "Role Based Access Control Administrator",
   "Storage Blob Data Contributor",
-  "Key Vault Administrator"]
+"Key Vault Administrator"]

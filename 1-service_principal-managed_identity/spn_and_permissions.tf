@@ -28,7 +28,7 @@ data "azuread_service_principal" "msgraph_api" {
 # API permissions for the Service Principal
 resource "azuread_application_api_access" "api_permission" {
   application_id = azuread_application.spn_application.id
-  api_client_id  = data.azuread_service_principal.msgraph_api.client_id  # "00000003-0000-0000-c000-000000000000" 
+  api_client_id  = data.azuread_service_principal.msgraph_api.client_id # "00000003-0000-0000-c000-000000000000" 
   role_ids       = var.app_role_ids
 }
 
