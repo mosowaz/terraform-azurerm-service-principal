@@ -8,6 +8,8 @@ use_spn_with_oidc        = false
 use_spn_with_certificate = false
 use_msi                  = false
 
+use_existing = true
+
 app_role_ids = ["1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9", # Application.ReadWrite.All
   "19dbc75e-c2e2-444c-a770-ec69d8559fc7",               # Directory.ReadWrite.All
   "dbb9058a-0e50-45d7-ae91-66909b5d4664",               # Domain.Read.All
@@ -18,3 +20,7 @@ iam_roles = ["Contributor",
   "Role Based Access Control Administrator",
   "Storage Blob Data Contributor",
 "Key Vault Administrator"]
+
+spn_password = {
+  display_name = "My Automation Account Password"
+}

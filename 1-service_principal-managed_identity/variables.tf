@@ -38,7 +38,7 @@ variable "description" {
 }
 
 variable "use_existing" {
-  default     = true
+  type        = bool
   description = <<-DESCRIPTION
     When true, any existing service principal linked to the same application will be automatically imported. 
     When false, an import error will be raised for any pre-existing service principal.
@@ -53,4 +53,13 @@ variable "app_role_ids" {
 variable "iam_roles" {
   type        = list(string)
   description = "IAM roles required for the Service Principal to perform operations"
+}
+
+variable "spn_password" {
+  type = object({
+    display_name = string
+    start_date   = optional(any, null)
+    end_date     = optional(any, null)
+  })
+  description = "List of object references to the Service Principal password"
 }

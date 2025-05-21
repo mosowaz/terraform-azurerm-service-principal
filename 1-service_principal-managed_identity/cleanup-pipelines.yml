@@ -54,5 +54,5 @@ stages:
         ARM_TENANT_ID: $(SPN2-tenant-id)
         ARM_CLIENT_SECRET: $(SPN2-client-secret)
         ARM_SUBSCRIPTION_ID: $(SPN2-subscription-id)
-      workingDirectory: $(TeraformDirectory)
+      workingDirectory: $(TerraformDirectory)
       displayName: 'terraform destroy'
