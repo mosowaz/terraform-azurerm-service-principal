@@ -4,45 +4,69 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - dev
       - main
+      - dev
     paths:
       - '1-service_principal-managed_identity/**'
       - '.github/workflows/**'
-    tags: 
-      - '*'
-env: 
-  CURRENT_PROJECT: '1-service_principal-managed_identity'
+
+permissions:
+  contents: write # Required for to push tags, create release, and push changes
 
 jobs:
   terraform-docs:
     runs-on: ubuntu-latest
     environment: '1-service_principal-managed_identity'
-    permissions:
-      contents: write
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0        # fetch all commits for all branches
-          ref: ${{github.ref}}  # checkout branch that triggered the event
+          ref: ${{ github.ref }}  # checkout branch that triggered the event    
 
       - name: Get most recent commit message
         id: last_commit
-        run: echo "::set-output name=message::$(git log -1 --pretty=%B)"    
+        run: echo "message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT    
 
       - name: Render terraform docs inside the README.md and push changes back to PR branch
         uses: terraform-docs/gh-actions@v1.3.0
         with:
-          working-dir: "${{ env.CURRENT_PROJECT }}"   # directory where terraform files are located
+          working-dir: ${{ vars.TERRAFORMDIRECTORY }}  # directory where terraform files are located
           output-file: README.md                              # relative file-path/to/working-dir
           output-method: inject
           git-push: "true"
           config-file: .terraform-docs.yml  # absolute path/to/file
           git-commit-message: "${{ steps.last_commit.outputs.message }}"  # use last commit message
 
-      - name: Trigger a run in Azure pipelines    
+      - name: Mark directory as safe
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v5
+        with:
+          github-token: ${{ secrets.github_token }}
+          output-file: 'CHANGELOG.md'
+          git-message: ${{ steps.last_commit.outputs.message }}  # use last commit message
+          git-push: 'true'
+          skip-on-empty: 'false'
+          skip-ci: 'true' # prevent triggering another pipeline run when the changelog and version bump commit is pushed
+          version-file: package.json
+          version-path: '.'
+          skip-git-pull: 'true'
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+        with:
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
+
+      - name: Trigger a run in Azure pipelines
         uses: Azure/pipelines@v1
         with:
           azure-devops-project-url: 'https://dev.azure.com/MosesOwaseye/Service%20Principal%20and%20Managed%20Identity'
@@ -63,3 +87,5 @@ jobs:
                                        "SPN2-client-secret": "${{ secrets.SPN2_CLIENT_SECRET }}",
                                        "SPN2-subscription-id": "${{ secrets.SPN2_SUBSCRIPTION_ID }}"
                                     }'
+
+      

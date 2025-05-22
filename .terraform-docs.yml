@@ -16,7 +16,7 @@ content: |-
   {{ .Header }}
 
   ```hcl
-  {{ include "_example.tf" }}
+  {{ include "example/example.tf" }}
   ``` 
 
   {{ .Requirements }}

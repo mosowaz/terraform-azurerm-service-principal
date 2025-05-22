@@ -24,3 +24,12 @@ iam_roles = ["Contributor",
 spn_password = {
   display_name = "My Automation Account Password"
 }
+
+keyvault_name = "SPN"
+spn_secret_name = "SPN-client-secret"
+spn_client_id_name = "SPN-client-id"
+spn_tenant_id_name = "SPN-tenant-id"
+spn_subscription_id_name = "SPN-subscription-id"
+
+storage_account_name = "tfstate"
+storage_container_name = "tfstates-container"

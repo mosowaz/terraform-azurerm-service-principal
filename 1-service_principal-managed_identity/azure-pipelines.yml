@@ -15,6 +15,7 @@ trigger: none
     
 variables: 
 - group: 'service-connection'
+- group: 'my_publicIP'
 - name: system.debug
   value: 'true'
 - name: RGName

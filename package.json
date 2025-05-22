@@ -1,0 +1,10 @@
+{
+  "name": "terraform-azuredevops-modules",
+  "version": "0.1.0",
+  "description": "Terraform module for AzureDevops.",
+  "scripts": {},
+  "author": {
+    "name": "Moses Owaseye"
+  },  
+  "license": "MIT"
+}

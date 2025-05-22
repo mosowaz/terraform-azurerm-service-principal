@@ -45,6 +45,7 @@ stages:
               ARM_TENANT_ID: $(SPN2-tenant-id)
               ARM_CLIENT_SECRET: $(SPN2-client-secret)
               ARM_SUBSCRIPTION_ID: $(SPN2-subscription-id)
+              TF_VAR_my_publicIP: $(my_publicIP)
             displayName: 'terraform apply'
             workingDirectory: '$(Build.ArtifactStagingDirectory)'
             continueOnError: false

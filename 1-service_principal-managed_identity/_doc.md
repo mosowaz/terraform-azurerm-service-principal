@@ -1,10 +1,10 @@
-# Service Principal and Managed Identity
-This module creates Service Principal (with either client secrets, OIDC, or client certificate) and Managed Identity.\
-This module also create Azure Key Vault to store Service Principal secret value and other attributes,\
+# Terraform Azure Service Principal and Managed Identity Module
+This module creates Service Principal (with client secrets, OIDC, or client certificate) and Managed Identity.\
+This module also creates Azure Key Vault to store Service Principal secret value and its related attributes,\
  as well as storage account for terraform states used by the Service Principal.
- 
-Set either of the service principal input variable to "true" to activate the deployment.\
-As shown below, "use_spn_with_secret" is used for example.
+
+Set one of the service principal/managed identity input variable to "true" to activate the deployment.\
+Here, `use_spn_with_secret` is used as an example.
 ```hcl
 use_spn_with_secret      = true
 use_spn_with_oidc        = false
