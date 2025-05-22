@@ -6,6 +6,7 @@ pr: none
 
 variables:
 - group: 'service-connection'
+- group: 'my_publicIP'
 - name: system.debug
   value: 'true'
 - name: RGName
@@ -54,5 +55,6 @@ stages:
         ARM_TENANT_ID: $(SPN2-tenant-id)
         ARM_CLIENT_SECRET: $(SPN2-client-secret)
         ARM_SUBSCRIPTION_ID: $(SPN2-subscription-id)
+        TF_VAR_my_publicIP: $(my_publicIP)
       workingDirectory: $(TerraformDirectory)
       displayName: 'terraform destroy'

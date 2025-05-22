@@ -63,3 +63,43 @@ variable "spn_password" {
   })
   description = "List of object references to the Service Principal password"
 }
+
+variable "my_publicIP" {
+  sensitive   = true
+  description = "Your public IP address to allow access Key Vault and Storage account"
+}
+
+variable "keyvault_name" {
+  type = string
+  description = "Name of the Key Vault"
+}
+
+variable "spn_secret_name" {
+  type = string
+  description = "Name given to the service principal's secret value"
+}
+
+variable "spn_client_id_name" {
+  type = string
+  description = "Name given to the service principal's client ID"
+}
+
+variable "spn_tenant_id_name" {
+  type = string
+  description = "Name given to the service principal's tenant ID"
+}
+
+variable "spn_subscription_id_name" {
+  type = string
+  description = "Name given to the service principal's subscription ID"
+}
+
+variable "storage_account_name" {
+  type = string
+  description = "Name of the storage account created for the SPN"
+}
+
+variable "storage_container_name" {
+  type = string
+  description = "Name of the storage container created for the SPN"
+}

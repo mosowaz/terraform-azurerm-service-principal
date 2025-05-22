@@ -9,8 +9,6 @@ on:
     paths:
       - '1-service_principal-managed_identity/**'
       - '.github/workflows/**'
-    tags: 
-      - '*'
 env: 
   CURRENT_PROJECT: '1-service_principal-managed_identity'
 
