@@ -26,14 +26,14 @@ jobs:
   terraform-docs:
     runs-on: ubuntu-latest
     environment: '1-service_principal-managed_identity'
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0        # fetch all commits for all branches
           ref: ${{ github.ref }}  # checkout branch that triggered the event
- 
+
       - name: Check if commit is a merge from main into dev
         id: skip_merge
         run: |
@@ -50,7 +50,6 @@ jobs:
         run: |
           echo "Exiting workflow due to merge commit."
           exit 0
-
 
       - name: Get most recent commit message
         if: steps.skip_merge.outputs.skip != 'true'
