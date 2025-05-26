@@ -22,11 +22,14 @@ permissions:
   contents: write # Required for to push tags, create release, and push changes to the wiki
   pull-requests: write # Required to comment on pull request
 
+permissions:
+  contents: write
+
 jobs:
   terraform-docs:
     runs-on: ubuntu-latest
     environment: '1-service_principal-managed_identity'
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
