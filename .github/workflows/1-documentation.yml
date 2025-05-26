@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   pull_request:
-    types: [opened, reopened, synchronize, closed] # Closed required
+    types: [opened, closed] # Closed required
     branches:
       - main
     paths:
@@ -17,8 +17,6 @@ on:
     paths:
       - '1-service_principal-managed_identity/**'
       - '.github/workflows/**'
-env: 
-  CURRENT_PROJECT: '1-service_principal-managed_identity'
 
 permissions:
   contents: write # Required for to push tags, create release, and push changes to the wiki
@@ -29,22 +27,21 @@ jobs:
     runs-on: ubuntu-latest
     environment: '1-service_principal-managed_identity'
     
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0        # fetch all commits for all branches
-          ref: ${{github.ref}}  # checkout branch that triggered the event
-
+          ref: ${{ github.ref }}  # checkout branch that triggered the event
+ 
       - name: Get most recent commit message
         id: last_commit
-        run: echo "::set-output name=message::$(git log -1 --pretty=%B)"    
+        run: echo "message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT    
 
       - name: Render terraform docs inside the README.md and push changes back to PR branch
         uses: terraform-docs/gh-actions@v1.3.0
         with:
-          working-dir: "${{ env.CURRENT_PROJECT }}"   # directory where terraform files are located
+          working-dir: ${{ vars.TERRAFORMDIRECTORY }}  # directory where terraform files are located
           output-file: README.md                              # relative file-path/to/working-dir
           output-method: inject
           git-push: "true"
@@ -52,6 +49,7 @@ jobs:
           git-commit-message: "${{ steps.last_commit.outputs.message }}"  # use last commit message
 
       - name: Terraform Module Releaser
+        if: github.ref == 'refs/heads/main'
         uses: techpivot/terraform-module-releaser@v1.4.0
         with:
           major-keywords: major update,breaking change
@@ -62,7 +60,7 @@ jobs:
           delete-legacy-tags: true
           disable-wiki: false
           wiki-sidebar-changelog-max: 10
-          module-path-ignore: 1-service_principal-managed_identity/example
+          module-path-ignore: "${{ vars.TERRAFORMDIRECTORY }}/example"
           module-change-exclude-patterns: .gitignore,*.md,docs/**,examples/**,*.tftest.hcl,tests/**
           module-asset-exclude-patterns: .gitignore,*.md,*.tftest.hcl,tests/**
           use-ssh-source-format: false
