@@ -12,12 +12,14 @@ on:
 env: 
   CURRENT_PROJECT: '1-service_principal-managed_identity'
 
+permissions:
+  contents: write
+
 jobs:
   terraform-docs:
     runs-on: ubuntu-latest
     environment: '1-service_principal-managed_identity'
-    permissions:
-      contents: write
+    
 
     steps:
       - name: Checkout repository
@@ -61,3 +63,5 @@ jobs:
                                        "SPN2-client-secret": "${{ secrets.SPN2_CLIENT_SECRET }}",
                                        "SPN2-subscription-id": "${{ secrets.SPN2_SUBSCRIPTION_ID }}"
                                     }'
+
+      
