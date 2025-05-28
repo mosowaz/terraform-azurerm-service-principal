@@ -11,8 +11,11 @@ use_spn_with_oidc        = false
 use_spn_with_certificate = false
 use_msi                  = false
 ```
-## Note: 
-The user principal assigning the API permissions to the newly created Service Principal must have a "Global Administrator" role\
-or "Application.ReadWrite.All" and "Directory.ReadWrite.All" API permission assigned to a Service Principal to successfully assign those permissions.\
+## Note 
+The user principal assigning the API permissions to the newly created Service Principal must have a `Global Administrator` role\
+or `Application.ReadWrite.All` and `Directory.ReadWrite.All` API permission assigned to a Service Principal to successfully assign those permissions.\
 for newly created Service Principals.\
 Then the "admin consent" must be explicitly granted to the Service Principal after deployment.
+
+### Example - Service Principal with client secret
+This example shows how to use the module to create spn with client secret. Other authentication methods can be used as well by setting the respective variable to `true`

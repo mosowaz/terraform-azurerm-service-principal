@@ -57,7 +57,7 @@ variable "iam_roles" {
 
 variable "spn_password" {
   type = object({
-    display_name = string
+    display_name = optional(string, null)
     start_date   = optional(any, null)
     end_date     = optional(any, null)
   })
