@@ -3,10 +3,16 @@ resource_group = {
   location = "canadacentral"
 }
 
-use_spn_with_secret      = true
-use_spn_with_oidc        = false
-use_spn_with_certificate = false
-use_msi                  = false
+use_secret      = true
+use_certificate = false
+use_msi         = false
+
+use_oidc = {
+  enabled                = true
+  azdo_organization_name = "MosesOwaseye"
+  azdo_project_name      = "hub and spokes vnet peering"
+  azdo_repo_name         = "hub and spokes vnet peering"
+}
 
 use_existing = true
 
@@ -25,11 +31,11 @@ spn_password = {
   display_name = "My Automation Account Password"
 }
 
-keyvault_name = "SPN"
-spn_secret_name = "SPN-client-secret"
-spn_client_id_name = "SPN-client-id"
-spn_tenant_id_name = "SPN-tenant-id"
+keyvault_name            = "SPN"
+spn_secret_name          = "SPN-client-secret"
+spn_client_id_name       = "SPN-client-id"
+spn_tenant_id_name       = "SPN-tenant-id"
 spn_subscription_id_name = "SPN-subscription-id"
 
-storage_account_name = "tfstate"
+storage_account_name   = "tfstate"
 storage_container_name = "tfstates-container"

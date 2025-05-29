@@ -7,7 +7,7 @@ on:
       - main
       - dev
     paths:
-      - '1-service_principal-managed_identity/**'
+      - 'service_principal-managed_identity/**'
       - '.github/workflows/**'
 
 permissions:
