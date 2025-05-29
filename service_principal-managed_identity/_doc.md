@@ -4,18 +4,17 @@ This module also creates Azure Key Vault to store Service Principal secret value
  as well as storage account for terraform states used by the Service Principal.
 
 Set one of the service principal/managed identity input variable to "true" to activate the deployment.\
-Here, `use_spn_with_secret` is used as an example.
+Here, `use_secret` is used as an example.
 ```hcl
-use_spn_with_secret      = true
-use_spn_with_oidc        = false
-use_spn_with_certificate = false
-use_msi                  = false
+use_secret      = true
+use_oidc        = false # if "true", its associated attributes MUST BE PROVIDED!
+use_certificate = false
+use_msi         = false
 ```
 ## Note 
 The user principal assigning the API permissions to the newly created Service Principal must have a `Global Administrator` role\
-or `Application.ReadWrite.All` and `Directory.ReadWrite.All` API permission assigned to a Service Principal to successfully assign those permissions.\
-for newly created Service Principals.\
-Then the "admin consent" must be explicitly granted to the Service Principal after deployment.
+or `Application.ReadWrite.All` and `Directory.ReadWrite.All` API permission assigned to a Service Principal to successfully assign those permissions for newly created Service Principals.\
+Then, go to the portal to explicitly grant `admin consent` to the Service Principal.
 
 ### Example - Service Principal with client secret
 This example shows how to use the module to create spn with client secret. Other authentication methods can be used as well by setting the respective variable to `true`

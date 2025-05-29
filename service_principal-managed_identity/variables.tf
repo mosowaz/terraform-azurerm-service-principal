@@ -3,56 +3,66 @@ variable "resource_group" {
     name     = string
     location = string
   })
-  description = "Name and location of resource group"
+  description = "(Required) Name and location of resource group"
 }
 
-variable "use_spn_with_secret" {
+variable "use_secret" {
   type        = bool
-  description = "Should the Service Principal be used to authenticate with Client Secret?"
+  description = "(Required) Should the Service Principal be used to authenticate with Client Secret?"
 }
 
-variable "use_spn_with_oidc" {
-  type        = bool
-  description = "Should the Service Principal be used to authenticate with OpenID Connect?"
+variable "use_oidc" {
+  type = object({
+    enabled                = bool
+    azdo_organization_name = optional(string, null)
+    azdo_project_name      = optional(string, null)
+    azdo_repo_name         = optional(string, null)
+    azdo_branch            = optional(string, "*")
+  })
+  description = <<-DESCRIPTION
+    (Required) Should the Service Principal be used to authenticate with OpenID Connect?
+    If true, azdo_organization_name, azdo_project_name, azdo_repo_name and azdo_branch MUST BE PROVIDED.
+    This assumes you already have a repository and a project in your organization.
+  DESCRIPTION
 }
 
-variable "use_spn_with_certificate" {
+variable "use_certificate" {
   type        = bool
-  description = "Should the Service Principal be used to authenticate with Client Certificate?"
+  description = "(Required) Should the Service Principal be used to authenticate with Client Certificate?"
 }
 
 variable "use_msi" {
   type        = bool
-  description = "Should Managed Identity be used for authentication?"
+  description = "(Required) Should Managed Identity be used for authentication?"
 }
 
 variable "app_display_name" {
   type        = string
   default     = "My_Automation_Account"
-  description = "The display name of the application associated with this service principal."
+  description = "(Optional) The display name of the application associated with this service principal."
 }
 
 variable "description" {
   default     = "Service principal for automation"
-  description = "Description of the SPN being created"
+  description = "(Optional) Description of the SPN being created"
 }
 
 variable "use_existing" {
   type        = bool
   description = <<-DESCRIPTION
-    When true, any existing service principal linked to the same application will be automatically imported. 
+    (Required) When true, any existing service principal linked to the same application will be automatically imported. 
     When false, an import error will be raised for any pre-existing service principal.
   DESCRIPTION
 }
 
 variable "app_role_ids" {
   type        = list(string)
-  description = "API permissions required by the service principal running terraform apply"
+  description = "(Required) API permissions required by the service principal running terraform apply"
 }
 
 variable "iam_roles" {
   type        = list(string)
-  description = "IAM roles required for the Service Principal to perform operations"
+  description = "(Required) IAM roles required for the Service Principal to perform operations"
 }
 
 variable "spn_password" {
@@ -61,45 +71,46 @@ variable "spn_password" {
     start_date   = optional(any, null)
     end_date     = optional(any, null)
   })
-  description = "List of object references to the Service Principal password"
+  default     = {}
+  description = "(Optional) List of object references to the Service Principal password"
 }
 
 variable "my_publicIP" {
   sensitive   = true
-  description = "Your public IP address to allow access Key Vault and Storage account"
+  description = "(Required) Your public IP address to allow access Key Vault and Storage account"
 }
 
 variable "keyvault_name" {
-  type = string
-  description = "Name of the Key Vault"
+  type        = string
+  description = "(Required) Name of the Key Vault"
 }
 
 variable "spn_secret_name" {
-  type = string
-  description = "Name given to the service principal's secret value"
+  type        = string
+  description = "(Required) Name given to the service principal's secret value"
 }
 
 variable "spn_client_id_name" {
-  type = string
-  description = "Name given to the service principal's client ID"
+  type        = string
+  description = "(Required) Name given to the service principal's client ID"
 }
 
 variable "spn_tenant_id_name" {
-  type = string
-  description = "Name given to the service principal's tenant ID"
+  type        = string
+  description = "(Required) Name given to the service principal's tenant ID"
 }
 
 variable "spn_subscription_id_name" {
-  type = string
-  description = "Name given to the service principal's subscription ID"
+  type        = string
+  description = "(Required) Name given to the service principal's subscription ID"
 }
 
 variable "storage_account_name" {
-  type = string
-  description = "Name of the storage account created for the SPN"
+  type        = string
+  description = "(Required) Name of the storage account created for the SPN"
 }
 
 variable "storage_container_name" {
-  type = string
-  description = "Name of the storage container created for the SPN"
+  type        = string
+  description = "(Required) Name of the storage container created for the SPN"
 }

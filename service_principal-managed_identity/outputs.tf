@@ -24,3 +24,9 @@ output "application_object_id" {
 output "application_client_id" {
   value = azuread_application.spn_application.client_id
 }
+
+# Credential ID for SPN federated credential
+output "service_principal_federated_credential_id" {
+  value = azuread_application_federated_identity_credential.spn_azuredevops_oidc.credential_id
+  sensitive = true
+}
