@@ -25,8 +25,8 @@ output "application_client_id" {
   value = azuread_application.spn_application.client_id
 }
 
-# Credential ID for SPN federated credential
-output "service_principal_federated_credential_id" {
-  value = azuread_application_federated_identity_credential.spn_azuredevops_oidc.credential_id
+# client certificate
+output "spn_client_cert" {
+  value     = tls_self_signed_cert.signed_cert[0].cert_pem
   sensitive = true
 }

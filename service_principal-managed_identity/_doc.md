@@ -3,11 +3,10 @@ This module creates Service Principal (with client secrets, OIDC, or client cert
 This module also creates Azure Key Vault to store Service Principal secret value and its related attributes,\
  as well as storage account for terraform states used by the Service Principal.
 
-Set one of the service principal/managed identity input variable to "true" to activate the deployment.\
-Here, `use_secret` is used as an example.
+Set one or more of the service principal/managed identity input variable to "true" to use for authentication.\
 ```hcl
-use_secret      = true
-use_oidc        = false # if "true", its associated attributes MUST BE PROVIDED!
+use_secret      = false
+use_oidc        = true # if "true", its associated attributes MUST BE PROVIDED!
 use_certificate = false
 use_msi         = false
 ```

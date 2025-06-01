@@ -21,14 +21,28 @@ variable "use_oidc" {
   })
   description = <<-DESCRIPTION
     (Required) Should the Service Principal be used to authenticate with OpenID Connect?
-    If true, azdo_organization_name, azdo_project_name, azdo_repo_name and azdo_branch MUST BE PROVIDED.
+    If enabled = true, azdo_organization_name, azdo_project_name, azdo_repo_name and azdo_branch MUST BE PROVIDED.
     This assumes you already have a repository and a project in your organization.
   DESCRIPTION
 }
 
+variable "certificate_validity_period_hours" {
+  type        = number
+  default     = 1440
+  description = "(Optional) Number of days the client certificate will be valid for. This is required if var.use_certificate = true"
+}
+
 variable "use_certificate" {
-  type        = bool
-  description = "(Required) Should the Service Principal be used to authenticate with Client Certificate?"
+  type = object({
+    enabled      = bool
+    common_name  = optional(string, null)
+    organization = optional(string, null)
+  })
+  description = <<-DESCRIPTION
+    (Required) Should the Service Principal be used to authenticate with Client Certificate?
+    If enabled = true, common_name and organization MUST BE PROVIDED
+    common_name: Distinguished name (e.g myapp.example.com). organization: Distinguished name (i.e YOUR_ORGANIZATION_NAME)
+  DESCRIPTION
 }
 
 variable "use_msi" {
@@ -44,7 +58,7 @@ variable "app_display_name" {
 
 variable "description" {
   default     = "Service principal for automation"
-  description = "(Optional) Description of the SPN being created"
+  description = "(Optional) Description of the Service Principal being created"
 }
 
 variable "use_existing" {
@@ -87,12 +101,14 @@ variable "keyvault_name" {
 
 variable "spn_secret_name" {
   type        = string
-  description = "(Required) Name given to the service principal's secret value"
+  default     = "spn_secret_name"
+  description = "(Optional) Name given to the service principal's secret value. Required if use_secret = true"
 }
 
 variable "spn_client_id_name" {
   type        = string
-  description = "(Required) Name given to the service principal's client ID"
+  default     = "spn_client_id"
+  description = "(Optional) Name given to the service principal's client ID. Required if use_secret = true"
 }
 
 variable "spn_tenant_id_name" {

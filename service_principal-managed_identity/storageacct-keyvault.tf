@@ -23,28 +23,32 @@ module "avm-res-keyvault-vault" {
   public_network_access_enabled = true
   secrets = {
     secret = {
-      name = var.spn_secret_name
+      name = try(var.spn_secret_name, null)
     }
     client-id = {
-      name = var.spn_client_id_name
+      name = try(var.spn_client_id_name, null)
     }
     tenant-id = {
-      name = var.spn_tenant_id_name
+      name = try(var.spn_tenant_id_name, null)
     }
     subscription-id = {
-      name = var.spn_subscription_id_name
+      name = try(var.spn_subscription_id_name, null)
+    }
+    certificate = {
+      name = try("spn-certificate", null)
     }
   }
   secrets_value = {
-    secret          = azuread_service_principal_password.spn_secret[0].value
-    client-id       = azuread_application.spn_application.client_id
-    tenant-id       = azuread_service_principal.service_principal.application_tenant_id
-    subscription-id = data.azurerm_subscription.primary.subscription_id
+    secret          = try(azuread_service_principal_password.spn_secret[0].value, null)
+    client-id       = try(azuread_application.spn_application.client_id, null)
+    tenant-id       = try(azuread_service_principal.service_principal.application_tenant_id, null)
+    subscription-id = try(data.azurerm_subscription.primary.subscription_id, null)
+    certificate     = try(tls_self_signed_cert.signed_cert[0].cert_pem, null)
   }
   network_acls = {
     bypass         = "AzureServices"
     default_action = "Deny"
-    ip_rules       = [var.my_publicIP]
+    ip_rules       = try([var.my_publicIP], ["${data.http.ip.response_body}/24"])
     # ip_rules       = ["${data.http.ip.response_body}/24"]
   }
 }
@@ -83,7 +87,7 @@ module "avm-res-storage-storageaccount" {
   network_rules = {
     bypass         = ["AzureServices"]
     default_action = "Deny"
-    ip_rules       = [var.my_publicIP]
+    ip_rules       = try([var.my_publicIP], ["${data.http.ip.response_body}/24"])
     # ip_rules       = ["${data.http.ip.response_body}/24"]
   }
   allow_nested_items_to_be_public = false
