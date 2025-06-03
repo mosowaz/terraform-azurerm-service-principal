@@ -4,5 +4,4 @@ module "service-principal" {
   use_secret      = true
   use_oidc        = false
   use_certificate = false
-  use_msi         = false
 }

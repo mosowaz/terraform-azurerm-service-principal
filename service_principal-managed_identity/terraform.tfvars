@@ -4,7 +4,6 @@ resource_group = {
 }
 
 use_secret = true
-use_msi    = false
 
 use_oidc = {
   enabled                = true

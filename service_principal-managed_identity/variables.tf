@@ -45,11 +45,6 @@ variable "use_certificate" {
   DESCRIPTION
 }
 
-variable "use_msi" {
-  type        = bool
-  description = "(Required) Should Managed Identity be used for authentication?"
-}
-
 variable "app_display_name" {
   type        = string
   default     = "My_Automation_Account"
