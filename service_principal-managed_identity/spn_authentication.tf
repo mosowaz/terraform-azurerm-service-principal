@@ -7,19 +7,19 @@ resource "azuread_service_principal_password" "spn_secret" {
 
 # create  Open ID Connect (OIDC) for authentication
 resource "azuread_application_federated_identity_credential" "spn_oidc" {
-  count = var.use_oidc.enabled ? 1 : 0
+  count = var.use_oidc ? 1 : 0
 
   application_id = azuread_application.spn_application.id
   display_name   = "azuredevops-oidc"
   description    = var.description
   audiences      = ["api://AzureADTokenExchange"]
-  issuer         = "https://vstoken.dev.azure.com/${var.use_oidc.azdo_organization_name}"
-  subject        = "repo:${var.use_oidc.azdo_project_name}/${var.use_oidc.azdo_repo_name}:ref:refs/heads/${var.use_oidc.azdo_branch}"
+  issuer         = "https://vstoken.dev.azure.com/${var.federation.azdo_organization_name}"
+  subject        = "repo:${var.federation.azdo_project_name}/${var.federation.azdo_repo_name}:ref:refs/heads/${var.federation.azdo_branch}"
 }
 
 # RSA key of size 4096 bits 
 resource "tls_private_key" "cert_key" {
-  count = var.use_certificate.enabled ? 1 : 0
+  count = var.use_certificate ? 1 : 0
 
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -27,11 +27,11 @@ resource "tls_private_key" "cert_key" {
 
 # self-signed TLS certificate
 resource "tls_self_signed_cert" "signed_cert" {
-  count = var.use_certificate.enabled ? 1 : 0
+  count = var.use_certificate ? 1 : 0
 
   subject {
-    common_name  = var.use_certificate.common_name
-    organization = var.use_certificate.organization
+    common_name  = var.client_certificate.common_name
+    organization = var.client_certificate.organization
   }
   private_key_pem       = tls_private_key.cert_key[0].private_key_pem
   validity_period_hours = var.certificate_validity_period_hours
@@ -45,7 +45,7 @@ resource "tls_self_signed_cert" "signed_cert" {
 
 # Associates the self-signed (Client) Certificate with the Service Principal
 resource "azuread_service_principal_certificate" "spn_certificate" {
-  count = var.use_certificate.enabled ? 1 : 0
+  count = var.use_certificate ? 1 : 0
 
   service_principal_id = azuread_service_principal.service_principal.id
   type                 = "AsymmetricX509Cert"

@@ -3,17 +3,17 @@ resource_group = {
   location = "canadacentral"
 }
 
-use_secret = true
+use_secret      = true
+use_oidc        = true
+use_certificate = true
 
-use_oidc = {
-  enabled                = true
+federation = {
   azdo_organization_name = "MosesOwaseye"
   azdo_project_name      = "hub and spokes vnet peering"
   azdo_repo_name         = "hub and spokes vnet peering"
 }
 
-use_certificate = {
-  enabled      = true
+client_certificate = {
   common_name  = "Mosesowaseyegmail.onmicrosoft.com"
   organization = "Moses Owaseye"
 }

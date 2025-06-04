@@ -12,16 +12,20 @@ variable "use_secret" {
 }
 
 variable "use_oidc" {
+  type        = bool
+  description = "(Required) Should the Service Principal be used to authenticate with OpenID Connect?"
+}
+
+variable "federation" {
   type = object({
-    enabled                = bool
     azdo_organization_name = optional(string, null)
     azdo_project_name      = optional(string, null)
     azdo_repo_name         = optional(string, null)
     azdo_branch            = optional(string, "*")
   })
+  default     = {}
   description = <<-DESCRIPTION
-    (Required) Should the Service Principal be used to authenticate with OpenID Connect?
-    If enabled = true, azdo_organization_name, azdo_project_name, azdo_repo_name and azdo_branch MUST BE PROVIDED.
+    (Optional) This block is required if use_oidc = true
     This assumes you already have a repository and a project in your organization.
   DESCRIPTION
 }
@@ -29,18 +33,22 @@ variable "use_oidc" {
 variable "certificate_validity_period_hours" {
   type        = number
   default     = 1440
-  description = "(Optional) Number of days the client certificate will be valid for. This is required if var.use_certificate = true"
+  description = "(Optional) Number of days the client certificate will be valid for. This is required if use_certificate = true"
 }
 
 variable "use_certificate" {
+  type        = bool
+  description = "(Required) Should the Service Principal be used to authenticate with Client Certificate?"
+}
+
+variable "client_certificate" {
   type = object({
-    enabled      = bool
     common_name  = optional(string, null)
     organization = optional(string, null)
   })
+  default     = {}
   description = <<-DESCRIPTION
-    (Required) Should the Service Principal be used to authenticate with Client Certificate?
-    If enabled = true, common_name and organization MUST BE PROVIDED
+    (Optional) This block is required if use_certificate = true
     common_name: Distinguished name (e.g myapp.example.com). organization: Distinguished name (i.e YOUR_ORGANIZATION_NAME)
   DESCRIPTION
 }
@@ -52,6 +60,7 @@ variable "app_display_name" {
 }
 
 variable "description" {
+  type        = string
   default     = "Service principal for automation"
   description = "(Optional) Description of the Service Principal being created"
 }
@@ -81,12 +90,13 @@ variable "spn_password" {
     end_date     = optional(any, null)
   })
   default     = {}
-  description = "(Optional) List of object references to the Service Principal password"
+  description = "(Optional) Object references to the Service Principal password"
 }
 
 variable "my_publicIP" {
+  type        = list(string)
   sensitive   = true
-  description = "(Required) Your public IP address to allow access Key Vault and Storage account"
+  description = "(Required) List of public/private IP addresses to allow access to Key Vault and Storage account"
 }
 
 variable "keyvault_name" {
