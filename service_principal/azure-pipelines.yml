@@ -8,7 +8,7 @@ trigger: none
   #   - main
   # paths:
   #   include:
-  #   - 'service_principal-managed_identity'
+  #   - 'service_principal'
 
     
 variables: 
@@ -34,14 +34,14 @@ stages:
 - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:  
   - template: pipeline_templates/release_template.yml
     parameters:  
-      TerraformDirectory: 'service_principal-managed_identity'
+      TerraformDirectory: 'service_principal'
       infrastructure: 'spn_identity'
       tfplan: 'spn.tfplan'
       BlobName: 'spn.tfstate'
 - ${{ else }}:
   - template: pipeline_templates/build_template.yml
     parameters: 
-      TerraformDirectory: 'service_principal-managed_identity'
+      TerraformDirectory: 'service_principal'
       infrastructure: 'spn_identity'
       tfplan: 'spn.tfplan'
       BlobName: 'spn.tfstate'
