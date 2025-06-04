@@ -203,7 +203,6 @@ variable "create_storage_account" {
   default     = true
   description = "(Optional) Should storage account be created for storing terraform states"
 }
-
 variable "storage_account_name" {
   type        = string
   default     = "tfstate"

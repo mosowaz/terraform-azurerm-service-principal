@@ -1,4 +1,4 @@
-[![Build Status](https://dev.azure.com/MosesOwaseye/Service%20Principal/_apis/build/status%2FDeploy%20Resources?branchName=main)](https://dev.azure.com/MosesOwaseye/Service%20Principal/_build/latest?definitionId=39&branchName=main)
+[![Build Status](https://dev.azure.com/MosesOwaseye/Service%20Principal/_apis/build/status%2FDeploy%20Resources?branchName=main)](https://dev.azure.com/MosesOwaseye/Service%20Principal/_build/latest?definitionId=37&branchName=main)
 
 # Terraform Azure Service Principal Module
 This module creates Service Principal (with client secrets, OIDC, or client certificate).\
@@ -16,7 +16,7 @@ use_oidc        = true
 use_certificate = false
 ```
 ## Note 
-The user principal assigning the API permissions to the newly provisioned Service Principal must have a `Global Administrator` role\
+The user principal assigning the API permissions to the newly created Service Principal must have a `Global Administrator` role\
 or `Application.ReadWrite.All` and `Directory.ReadWrite.All` API permission assigned to a Service Principal to successfully assign those permissions for newly created Service Principals.\
 Then, go to the portal to explicitly grant `admin consent` to the Service Principal.
 
