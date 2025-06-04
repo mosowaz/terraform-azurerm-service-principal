@@ -22,7 +22,7 @@ variables:
 - name: stateFile
   value: 'spn.tfstate'
 - name: TerraformDirectory
-  value: 'service_principal-managed_identity'
+  value: 'service_principal'
 
 stages:
 - stage: 'Destroy_Resources' 

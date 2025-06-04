@@ -2,12 +2,12 @@ name: Generate terraform docs
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches:
       - main
-      - dev
+    types: [opened, reopened, synchronize, closed]
     paths:
-      - 'service_principal-managed_identity/**'
+      - 'service_principal/**'
       - '.github/workflows/**'
 
 permissions:
@@ -42,7 +42,7 @@ jobs:
       - name: Trigger a run in Azure pipelines
         uses: Azure/pipelines@v1
         with:
-          azure-devops-project-url: 'https://dev.azure.com/MosesOwaseye/Service%20Principal%20and%20Managed%20Identity'
+          azure-devops-project-url: 'https://dev.azure.com/MosesOwaseye/Service%20Principal'
           azure-pipeline-name: 'Deploy Resources' # name of the Azure pipeline to be triggered
           azure-devops-token: '${{ secrets.AZURE_DEVOPS_TOKEN }}'
           azure-pipeline-variables: '{
