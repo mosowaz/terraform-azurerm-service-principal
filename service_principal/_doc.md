@@ -6,10 +6,13 @@ This module also creates Azure Key Vault to store Service Principal secret value
  as well as storage account for terraform states used by the Service Principal.
 
 Set one or more of the service principal input variable to "true" to use for authentication.\
+<<<<<<< HEAD
 <<<<<<<< HEAD:_doc.md
 
 ========
 >>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/_doc.md
+=======
+>>>>>>> 27844d7 (fix: modify variable names, and update example.tf)
 ```hcl
 use_secret      = false
 use_oidc        = true 
