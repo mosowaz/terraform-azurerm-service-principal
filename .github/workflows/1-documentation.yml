@@ -4,8 +4,14 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
       - dev
+    paths:
+      - 'service_principal/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened, synchronize, closed]
     paths:
       - 'service_principal/**'
       - '.github/workflows/**'
