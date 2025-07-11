@@ -1,0 +1,38 @@
+stages:
+- stage: 'Destroy_Resources' 
+  displayName: 'Destroy resoures'
+  pool: $(Pipeline_Agent)
+  
+  jobs:
+  - job: terraform_destroy
+    workspace:
+      clean: all
+    steps:
+    - checkout: self
+      clean: true
+      
+    - template: installs.yml
+
+    - bash: |
+        set -exo pipefail 
+        terraform init -upgrade -input=false -lock=false \
+          -backend-config="resource_group_name=$(RGName)" \
+          -backend-config="storage_account_name=$(StorageAccName)" \
+          -backend-config="container_name=$(ContainerName)" \
+          -backend-config="key=${{parameters.BlobName}}" \
+          -backend-config="use_azuread_auth=true"
+        terraform destroy -auto-approve -input=false '-lock-timeout=1m' \
+          '-var-file=terraform.tfvars'
+        terraform state list -state='${{parameters.BlobName}}'
+      env:
+        ARM_CLIENT_ID: $(SPN2-client-id)
+        ARM_TENANT_ID: $(SPN2-tenant-id)
+        ARM_CLIENT_SECRET: $(SPN2-client-secret)
+        ARM_SUBSCRIPTION_ID: $(SPN2-subscription-id)
+        TF_VAR_my_publicIP: $(my_publicIP)
+      workingDirectory: ${{parameters.TerraformDirectory}}
+      displayName: 'terraform destroy'
+
+    - bash: rm -rf *  
+      displayName: Remove artifacts after use
+      workingDirectory: '$(Build.ArtifactStagingDirectory)'  

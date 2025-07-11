@@ -16,7 +16,7 @@ stages:
 
     - bash: |
         set -exo pipefail 
-        terraform init -upgrade -reconfigure -input=false -lock=false \
+        terraform init -upgrade -input=false -lock=false \
           -backend-config="resource_group_name=$(RGName)" \
           -backend-config="storage_account_name=$(StorageAccName)" \
           -backend-config="container_name=$(ContainerName)" \

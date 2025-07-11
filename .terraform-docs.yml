@@ -1,6 +1,6 @@
 formatter: "markdown document"
 
-header-from: "_doc.md"    # relative file-path/to/working-dir  
+header-from: "../_doc.md"    # relative path/to/working-dir  
 
 sections:
   show: all
@@ -16,7 +16,7 @@ content: |-
   {{ .Header }}
 
   ```hcl
-  {{ include "example/example.tf" }}
+  {{ include "../example/example.tf" }}
   ``` 
 
   {{ .Requirements }}

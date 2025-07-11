@@ -1,6 +1,8 @@
 stages:
 - stage: Deploy_${{parameters.infrastructure}}
   displayName: '${{parameters.TerraformDirectory}} Deploy Stage'
+  dependsOn: Build_${{parameters.infrastructure}}
+  condition: succeeded()
   pool:
     name: $(Pipeline_Agent)
 
@@ -21,24 +23,24 @@ stages:
               project: '$(System.TeamProject)'
               definition: '$(System.DefinitionId)'
               buildVersionToDownload: 'latestFromBranch'
-              branchName: 'refs/heads/dev'
+              branchName: 'refs/heads/$(Build.SourceBranchName)'
               pipelineId: '$(Build.BuildId)'
               artifactName: '${{parameters.tfplan}}-artifact'
               targetPath: '$(Build.ArtifactStagingDirectory)'
-            displayName: 'Download artifact'
+            displayName: 'Download artifact from latest build'
 
           - template: installs.yml
           
           - bash: |
               set -exo pipefail
               chmod -R a+x .terraform/*
-              terraform init -upgrade -reconfigure -input=false -lock=false \
+              terraform init -upgrade -input=false -lock=false \
                 -backend-config="resource_group_name=$(RGName)" \
                 -backend-config="storage_account_name=$(StorageAccName)" \
                 -backend-config="container_name=$(ContainerName)" \
                 -backend-config="key=${{parameters.BlobName}}" \
                 -backend-config="use_azuread_auth=true"
-              terraform apply -auto-approve -input=false -lock=false '${{parameters.tfplan}}'
+              terraform apply -auto-approve -input=false '${{parameters.tfplan}}' '-lock-timeout=1m'
               terraform state list -state='${{parameters.BlobName}}'
             env:
               ARM_CLIENT_ID: $(SPN2-client-id)
@@ -49,7 +51,3 @@ stages:
             displayName: 'terraform apply'
             workingDirectory: '$(Build.ArtifactStagingDirectory)'
             continueOnError: false
-
-          - bash: rm -rf *  
-            displayName: Remove artifacts after use
-            workingDirectory: '$(Build.ArtifactStagingDirectory)'
