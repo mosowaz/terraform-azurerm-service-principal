@@ -13,10 +13,18 @@ module "naming" {
   source = "git::https://github.com/Azure/terraform-azurerm-naming.git?ref=75d5afae"
 }
 
+resource "random_string" "random" {
+  length           = 4
+  special          = false
+  min_lower        = 1
+  min_numeric      = 1
+  min_upper        = 1 
+}
+
 module "avm-res-keyvault-vault" {
   source = "git::https://github.com/Azure/terraform-azurerm-avm-res-keyvault-vault.git?ref=6e49111ba5"
 
-  name                          = "${var.keyvault_name}-${module.naming.key_vault.name_unique}"
+  name                          = "${var.keyvault_name}-${random_string.random.result}-${module.naming.key_vault.name_unique}"
   location                      = azurerm_resource_group.rg.location
   resource_group_name           = azurerm_resource_group.rg.name
   tenant_id                     = azuread_service_principal.service_principal.application_tenant_id

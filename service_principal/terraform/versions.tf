@@ -47,6 +47,9 @@ provider "azurerm" {
       roll_instances_when_required  = true
       scale_to_zero_before_deletion = false
     }
+    key_vault {
+    recover_soft_deleted_key_vaults = true
+    }
   }
   storage_use_azuread = true
 }

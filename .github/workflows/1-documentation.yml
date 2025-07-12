@@ -42,11 +42,17 @@ jobs:
           output-file: "../README.md"  # relative file-path/to/working-dir
           output-method: inject
           config-file: .terraform-docs.yml  # absolute path/to/file 
-          git-push: "true"
-          git-commit-message: "${{ steps.last_commit.outputs.message }}"  # use last commit message
-          git-push-user-name: mosowaz
-          git-push-sign-off: "true"
-         
+          git-push: "false"
+          # git-commit-message: "${{ steps.last_commit.outputs.message }}"  # use last commit message
+          # git-push-user-name: mosowaz
+
+      - name: Stage, commit and push updates
+        run: |
+          git add .
+          git config user.name "mosowaz"
+          git config user.email "mosowaz@users.noreply.github.com"
+          git commit -m "${{ steps.last_commit.outputs.message }}" && git push
+
       - name: Trigger a run in Azure pipelines
         uses: Azure/pipelines@v1
         with:

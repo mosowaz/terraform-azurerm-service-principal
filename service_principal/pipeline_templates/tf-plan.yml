@@ -1,10 +1,10 @@
 stages:
 - stage: Build_${{parameters.infrastructure}}
-  displayName: '${{parameters.TerraformDirectory}} Build Stage'
+  displayName: 'tf Plan'
   pool: $(Pipeline_Agent)
   
   jobs:
-  - job: tfplan_scan_publish
+  - job: plan_scan_publish
     timeoutInMinutes: 5
     workspace:
       clean: all
@@ -16,14 +16,14 @@ stages:
 
     - bash: |
         set -exo pipefail 
-        terraform init -upgrade -input=false -lock=false \
+        terraform init -upgrade -input=false '-lock-timeout=2s' \
           -backend-config="resource_group_name=$(RGName)" \
           -backend-config="storage_account_name=$(StorageAccName)" \
           -backend-config="container_name=$(ContainerName)" \
           -backend-config="key=${{parameters.BlobName}}" \
           -backend-config="use_azuread_auth=true"
         terraform validate
-        terraform plan -out='${{parameters.tfplan}}' '-lock-timeout=1m' -input=false \
+        terraform plan -out='${{parameters.tfplan}}' '-lock-timeout=10s' -input=false \
           '-var-file=terraform.tfvars'        
       env:
         ARM_CLIENT_ID: $(SPN2-client-id)
@@ -46,7 +46,7 @@ stages:
           --download-external-modules true \
           --framework terraform,azure_pipelines,secrets \
           --output-file-path $(common.TestResultsDirectory)
-      displayName: 'code and secret scanning with checkov'
+      displayName: 'code scanning with checkov'
       workingDirectory: ${{parameters.TerraformDirectory}}
       continueOnError: false
 

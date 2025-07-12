@@ -1,3 +1,8 @@
+resource_group = {
+    name     = "service_principal"
+    location = "canadacentral"
+  }
+
 use_secret      = true
 use_oidc        = true
 use_certificate = true

@@ -3,11 +3,7 @@ variable "resource_group" {
     name     = string
     location = string
   })
-  default = {
-    name     = "service_principal_and_identity"
-    location = "canadacentral"
-  }
-  description = "(Optional) Name and location of resource group"
+  description = "(Required) Name and location of resource group"
 }
 
 variable "use_secret" {
@@ -100,7 +96,7 @@ variable "spn_password" {
 variable "my_publicIP" {
   type        = string
   sensitive   = true
-  description = "(Required) List of public/private IP addresses to allow access to Key Vault and Storage account"
+  description = "(Required) public/private IP address to allow access to Key Vault and Storage account"
 }
 
 variable "keyvault_name" {

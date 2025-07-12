@@ -1,6 +1,6 @@
 stages:
 - stage: 'Destroy_Resources' 
-  displayName: 'Destroy resoures'
+  displayName: 'tf Destroy'
   pool: $(Pipeline_Agent)
   
   jobs:
@@ -21,7 +21,7 @@ stages:
           -backend-config="container_name=$(ContainerName)" \
           -backend-config="key=${{parameters.BlobName}}" \
           -backend-config="use_azuread_auth=true"
-        terraform destroy -auto-approve -input=false '-lock-timeout=1m' \
+        terraform destroy -auto-approve -input=false '-lock-timeout=10s' \
           '-var-file=terraform.tfvars'
         terraform state list -state='${{parameters.BlobName}}'
       env:

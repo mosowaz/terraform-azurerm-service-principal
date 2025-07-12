@@ -1,6 +1,6 @@
 stages:
 - stage: Deploy_${{parameters.infrastructure}}
-  displayName: '${{parameters.TerraformDirectory}} Deploy Stage'
+  displayName: 'tf Apply'
   dependsOn: Build_${{parameters.infrastructure}}
   condition: succeeded()
   pool:
@@ -19,12 +19,12 @@ stages:
             # Download pipeline artifact from other branch from specific build
           - task: DownloadPipelineArtifact@2
             inputs:
-              buildType: 'specific'
+              buildType: 'current'
               project: '$(System.TeamProject)'
               definition: '$(System.DefinitionId)'
               buildVersionToDownload: 'latestFromBranch'
               branchName: 'refs/heads/$(Build.SourceBranchName)'
-              pipelineId: '$(Build.BuildId)'
+              # pipelineId: '$(Build.BuildId)'
               artifactName: '${{parameters.tfplan}}-artifact'
               targetPath: '$(Build.ArtifactStagingDirectory)'
             displayName: 'Download artifact from latest build'
@@ -34,13 +34,13 @@ stages:
           - bash: |
               set -exo pipefail
               chmod -R a+x .terraform/*
-              terraform init -upgrade -input=false -lock=false \
+              terraform init -upgrade -input=false '-lock-timeout=2s' \
                 -backend-config="resource_group_name=$(RGName)" \
                 -backend-config="storage_account_name=$(StorageAccName)" \
                 -backend-config="container_name=$(ContainerName)" \
                 -backend-config="key=${{parameters.BlobName}}" \
                 -backend-config="use_azuread_auth=true"
-              terraform apply -auto-approve -input=false '${{parameters.tfplan}}' '-lock-timeout=1m'
+              terraform apply -auto-approve -input=false '-lock-timeout=10s' '${{parameters.tfplan}}' 
               terraform state list -state='${{parameters.BlobName}}'
             env:
               ARM_CLIENT_ID: $(SPN2-client-id)
