@@ -16,6 +16,11 @@ variable "use_oidc" {
   description = "(Required) Should the Service Principal be used to authenticate with OpenID Connect?"
 }
 
+variable "use_certificate" {
+  type        = bool
+  description = "(Required) Should the Service Principal be used to authenticate with Client Certificate?"
+}
+
 variable "federation" {
   type = object({
     azdo_organization_name = optional(string, null)
@@ -28,17 +33,24 @@ variable "federation" {
     (Optional) This block is required if use_oidc = true
     This assumes you already have a repository and a project in your organization.
   DESCRIPTION
+
+  validation {
+    condition = (
+      var.use_oidc == false ||  
+      (
+        var.federation.azdo_organization_name != null && var.federation.azdo_organization_name != "" &&
+        var.federation.azdo_project_name != null && var.federation.azdo_project_name != "" &&
+        var.federation.azdo_repo_name != null && var.federation.azdo_repo_name != ""
+      )
+    )
+    error_message = "If use_oidc is true, then azdo_organization_name, azdo_project_name, and azdo_repo_name must all be non-null and non-empty."
+  }
 }
 
 variable "certificate_validity_period_hours" {
   type        = number
   default     = 1440
   description = "(Optional) Number of days the client certificate will be valid for. This is required if use_certificate = true"
-}
-
-variable "use_certificate" {
-  type        = bool
-  description = "(Required) Should the Service Principal be used to authenticate with Client Certificate?"
 }
 
 variable "client_certificate" {
