@@ -33,6 +33,7 @@ resource "tls_self_signed_cert" "signed_cert" {
     common_name  = var.client_certificate.common_name
     organization = var.client_certificate.organization
   }
+
   private_key_pem       = tls_private_key.cert_key[0].private_key_pem
   validity_period_hours = var.certificate_validity_period_hours
   allowed_uses = [
@@ -40,6 +41,7 @@ resource "tls_self_signed_cert" "signed_cert" {
     "digital_signature",
     "server_auth",
     "client_auth",
+    "timestamping"
   ]
 }
 
@@ -52,4 +54,8 @@ resource "azuread_service_principal_certificate" "spn_certificate" {
   value                = tls_self_signed_cert.signed_cert[0].cert_pem
   end_date             = tls_self_signed_cert.signed_cert[0].validity_end_time
   start_date           = tls_self_signed_cert.signed_cert[0].validity_start_time
+
+  lifecycle {
+    ignore_changes = [start_date, end_date]
+  }
 }

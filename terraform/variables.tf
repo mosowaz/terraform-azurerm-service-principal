@@ -36,7 +36,7 @@ variable "federation" {
 
   validation {
     condition = (
-      var.use_oidc == false ||  
+      var.use_oidc == false ||
       (
         var.federation.azdo_organization_name != null && var.federation.azdo_organization_name != "" &&
         var.federation.azdo_project_name != null && var.federation.azdo_project_name != "" &&
@@ -49,8 +49,16 @@ variable "federation" {
 
 variable "certificate_validity_period_hours" {
   type        = number
-  default     = 1440
-  description = "(Optional) Number of days the client certificate will be valid for. This is required if use_certificate = true"
+  default     = null
+  description = "(Optional) Number of hours the client certificate will be valid for. This is required if use_certificate = true"
+
+  validation {
+    condition = (
+      var.use_certificate == false ||
+      (var.certificate_validity_period_hours != null && var.certificate_validity_period_hours > 0)
+    )
+    error_message = "If use_certificate is true, then certificate_validity_period_hours must be non-null and positive number."
+  }
 }
 
 variable "client_certificate" {
@@ -63,6 +71,11 @@ variable "client_certificate" {
     (Optional) This block is required if use_certificate = true
     common_name: Distinguished name (e.g myapp.example.com). organization: Distinguished name (i.e YOUR_ORGANIZATION_NAME)
   DESCRIPTION
+
+  validation {
+    condition     = var.use_certificate == false || (var.client_certificate != null && var.client_certificate != "")
+    error_message = "If use_certificate is true, then client_certificate must be non-null and non-empty."
+  }
 }
 
 variable "app_display_name" {
@@ -103,6 +116,13 @@ variable "spn_password" {
   })
   default     = {}
   description = "(Optional) Object references to the Service Principal password"
+
+  validation {
+    condition = (
+      var.use_secret == false || (var.spn_password != null && var.spn_password != "")
+    )
+    error_message = "If use_secret is true, then spn_password must be non-null and non-empty."
+  }
 }
 
 variable "my_publicIP" {
@@ -120,12 +140,26 @@ variable "spn_secret_name" {
   type        = string
   default     = "spn_secret_name"
   description = "(Optional) Name given to the service principal's secret value. Required if use_secret = true"
+
+  validation {
+    condition = (
+      var.use_secret == false || (var.spn_secret_name != null && var.spn_secret_name != "")
+    )
+    error_message = "If use_secret is true, then spn_secret_name must be non-null and non-empty."
+  }
 }
 
 variable "spn_client_id_name" {
   type        = string
   default     = "spn_client_id"
   description = "(Optional) Name given to the service principal's client ID. Required if use_secret = true"
+
+  validation {
+    condition = (
+      var.use_secret == false || (var.spn_client_id_name != null && var.spn_client_id_name != "")
+    )
+    error_message = "If use_secret is true, then spn_client_id_name must be non-null and non-empty."
+  }
 }
 
 variable "spn_tenant_id_name" {
@@ -138,12 +172,19 @@ variable "spn_subscription_id_name" {
   description = "(Required) Name given to the service principal's subscription ID"
 }
 
+variable "create_storage_account" {
+  type        = bool
+  default     = true
+  description = "(Optional) Should storage account be created for storing terraform states"
+}
 variable "storage_account_name" {
   type        = string
-  description = "(Required) Name of the storage account created for the SPN"
+  default     = "tfstate"
+  description = "(Optional) Name of the storage account created for the SPN"
 }
 
 variable "storage_container_name" {
   type        = string
-  description = "(Required) Name of the storage container created for the SPN"
+  default     = "tfstates-container"
+  description = "(Optional) Name of the storage container created for the SPN"
 }

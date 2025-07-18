@@ -48,7 +48,7 @@ provider "azurerm" {
       scale_to_zero_before_deletion = false
     }
     key_vault {
-    recover_soft_deleted_key_vaults = true
+      recover_soft_deleted_key_vaults = true
     }
   }
   storage_use_azuread = true

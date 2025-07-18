@@ -1,7 +1,7 @@
 resource_group = {
-    name     = "service_principal"
-    location = "canadacentral"
-  }
+  name     = "service_principal"
+  location = "canadacentral"
+}
 
 use_secret      = true
 use_oidc        = true
@@ -17,6 +17,8 @@ client_certificate = {
   common_name  = "Mosesowaseyegmail.onmicrosoft.com"
   organization = "Moses Owaseye"
 }
+
+certificate_validity_period_hours = 1440
 
 use_existing = true
 

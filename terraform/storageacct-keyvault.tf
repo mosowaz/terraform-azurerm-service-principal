@@ -14,11 +14,11 @@ module "naming" {
 }
 
 resource "random_string" "random" {
-  length           = 4
-  special          = false
-  min_lower        = 1
-  min_numeric      = 1
-  min_upper        = 1 
+  length      = 4
+  special     = false
+  min_lower   = 1
+  min_numeric = 1
+  min_upper   = 1
 }
 
 module "avm-res-keyvault-vault" {

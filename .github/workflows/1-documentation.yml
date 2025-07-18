@@ -5,16 +5,10 @@ on:
   push:
     branches-ignore:
       - main
-    paths:
-      - 'service_principal/**'
-      - '.github/workflows/**'
   pull_request:
     branches:
       - main
-    types: [opened, reopened]
-    paths:
-      - 'service_principal/**'
-      - '.github/workflows/**'
+    types: [opened, reopened, synchronize]
 
 permissions:
   contents: write 

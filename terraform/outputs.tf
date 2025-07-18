@@ -30,3 +30,16 @@ output "spn_client_cert" {
   value     = tls_self_signed_cert.signed_cert[0].cert_pem
   sensitive = true
 }
+
+output "end_date" {
+  value = azuread_service_principal_certificate.spn_certificate[0].end_date
+}
+
+output "start_date" {
+  value = azuread_service_principal_certificate.spn_certificate[0].start_date
+}
+
+output "tls_self_signed_cert" {
+  value     = tls_self_signed_cert.signed_cert[0].cert_pem
+  sensitive = true
+}

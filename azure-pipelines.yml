@@ -34,20 +34,20 @@ stages:
 - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:  
   - template: pipeline_templates/tf-destroy.yml
     parameters:  
-      TerraformDirectory: 'service_principal/terraform'
-      infrastructure: 'spn_identity'
+      TerraformDirectory: 'terraform'
+      infrastructure: 'spn'
       tfplan: 'spn.tfplan'
       BlobName: 'spn.tfstate'
 - ${{ else }}:
   - template: pipeline_templates/tf-plan.yml
     parameters: 
-      TerraformDirectory: 'service_principal/terraform'
-      infrastructure: 'spn_identity'
+      TerraformDirectory: 'terraform'
+      infrastructure: 'spn'
       tfplan: 'spn.tfplan'
       BlobName: 'spn.tfstate'
   - template: pipeline_templates/tf-apply.yml
     parameters:  
-      TerraformDirectory: 'service_principal/terraform'
-      infrastructure: 'spn_identity'
+      TerraformDirectory: 'terraform'
+      infrastructure: 'spn'
       tfplan: 'spn.tfplan'
       BlobName: 'spn.tfstate'
