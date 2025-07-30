@@ -128,7 +128,8 @@ variable "spn_password" {
 variable "my_publicIP" {
   type        = string
   sensitive   = true
-  description = "(Required) public/private IP address to allow access to Key Vault and Storage account"
+  default     = ""
+  description = "(Optional) public/private IP address to allow access to Key Vault and Storage account"
 }
 
 variable "keyvault_name" {
