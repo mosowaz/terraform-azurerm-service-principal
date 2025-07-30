@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!-- BEGIN_TF_DOCS -->
 [![Build Status](https://dev.azure.com/MosesOwaseye/Service%20Principal/_apis/build/status%2FDeploy%20Resources?branchName=main)](https://dev.azure.com/MosesOwaseye/Service%20Principal/_build/latest?definitionId=37&branchName=main)
 
@@ -7,7 +6,7 @@ This module creates Service Principal (with client secrets, OIDC, or client cert
 This module also creates Azure Key Vault to store Service Principal secret value and its related attributes,\
  as well as storage account for terraform states used by the Service Principal.
 
-Set one or more of the service principal input variable to "true" to use for authentication.\
+Set one or more of the service principal input variable to "true" to use for authentication.
 
 ```hcl
 use_secret      = false
@@ -147,7 +146,6 @@ module "service-principal" {
 
 ## Outputs
 
-<<<<<<< HEAD
 | Name | Description |
 |------|-------------|
 | <a name="output_application_client_id"></a> [application\_client\_id](#output\_application\_client\_id) | Client ID for the application |
@@ -161,20 +159,3 @@ module "service-principal" {
 | <a name="output_start_date"></a> [start\_date](#output\_start\_date) | n/a |
 | <a name="output_tls_self_signed_cert"></a> [tls\_self\_signed\_cert](#output\_tls\_self\_signed\_cert) | n/a |
 <!-- END_TF_DOCS -->
-=======
-No outputs.
-<!-- END_TF_DOCS -->
-=======
-# terraform-azuredevops-module
-A collection of terraform modules for creating azuredevops project with option of using github repo and azuredevops repo
-
-## Modules
-- [Service Principal](service_principal/)  [![Build Status](https://dev.azure.com/MosesOwaseye/Service%20Principal/_apis/build/status%2FDeploy%20Resources?branchName=main)](https://dev.azure.com/MosesOwaseye/Service%20Principal/_build/latest?definitionId=37&branchName=main)
-
-- [Azure DevOps Project](azuredevops_project/)
-
-- [Service Connection to Github](service_connection_github/)
-
-- [Service Connection to Azure Portal](service_connection_azurerm/)
->>>>>>> 8632c12 (fix: modify variable names, and update example.tf)
->>>>>>> 425272f (fix: modify variable names, and update example.tf)

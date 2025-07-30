@@ -33,39 +33,21 @@ variables:
 stages: 
 - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:  
   - template: pipeline_templates/tf-destroy.yml
-    parameters:  
-<<<<<<< HEAD
+    parameters: 
       TerraformDirectory: './terraform'
-=======
-<<<<<<<< HEAD:azure-pipelines.yml
-      TerraformDirectory: 'terraform'
->>>>>>> 425272f (fix: modify variable names, and update example.tf)
       infrastructure: 'spn'
-========
-      TerraformDirectory: 'service_principal'
-      infrastructure: 'spn_identity'
->>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/azure-pipelines.yml
       tfplan: 'spn.tfplan'
       BlobName: 'spn.tfstate'
 - ${{ else }}:
   - template: pipeline_templates/tf-plan.yml
     parameters: 
-<<<<<<< HEAD
       TerraformDirectory: './terraform'
-=======
-<<<<<<<< HEAD:azure-pipelines.yml
-      TerraformDirectory: 'terraform'
->>>>>>> 425272f (fix: modify variable names, and update example.tf)
       infrastructure: 'spn'
       tfplan: 'spn.tfplan'
       BlobName: 'spn.tfstate'
   - template: pipeline_templates/tf-apply.yml
-    parameters:  
+    parameters: 
       TerraformDirectory: './terraform'
       infrastructure: 'spn'
-========
-      TerraformDirectory: 'service_principal'
-      infrastructure: 'spn_identity'
->>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/azure-pipelines.yml
       tfplan: 'spn.tfplan'
       BlobName: 'spn.tfstate'

@@ -32,6 +32,7 @@ stages:
         TF_VAR_my_publicIP: $(my_publicIP)
       workingDirectory: ${{parameters.TerraformDirectory}}
       displayName: 'terraform destroy'
+      continueOnError: true
 
     - bash: rm -rf *  
       displayName: Remove artifacts after use

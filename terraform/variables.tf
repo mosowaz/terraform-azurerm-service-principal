@@ -3,11 +3,7 @@ variable "resource_group" {
     name     = string
     location = string
   })
-  default = {
-    name     = "service_principal_and_identity"
-    location = "canadacentral"
-  }
-  description = "(Optional) Name and location of resource group"
+  description = "(Required) Name and location of resource group"
 }
 
 variable "use_secret" {
@@ -20,14 +16,11 @@ variable "use_oidc" {
   description = "(Required) Should the Service Principal be used to authenticate with OpenID Connect?"
 }
 
-<<<<<<<< HEAD:terraform/variables.tf
 variable "use_certificate" {
   type        = bool
   description = "(Required) Should the Service Principal be used to authenticate with Client Certificate?"
 }
 
-========
->>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/variables.tf
 variable "federation" {
   type = object({
     azdo_organization_name = optional(string, null)
@@ -56,7 +49,6 @@ variable "federation" {
 
 variable "certificate_validity_period_hours" {
   type        = number
-<<<<<<<< HEAD:terraform/variables.tf
   default     = null
   description = "(Optional) Number of hours the client certificate will be valid for. This is required if use_certificate = true"
 
@@ -69,17 +61,6 @@ variable "certificate_validity_period_hours" {
   }
 }
 
-========
-  default     = 1440
-  description = "(Optional) Number of days the client certificate will be valid for. This is required if use_certificate = true"
-}
-
-variable "use_certificate" {
-  type        = bool
-  description = "(Required) Should the Service Principal be used to authenticate with Client Certificate?"
-}
-
->>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/variables.tf
 variable "client_certificate" {
   type = object({
     common_name  = optional(string, null)
@@ -135,7 +116,6 @@ variable "spn_password" {
   })
   default     = {}
   description = "(Optional) Object references to the Service Principal password"
-<<<<<<<< HEAD:terraform/variables.tf
 
   validation {
     condition = (
@@ -143,18 +123,12 @@ variable "spn_password" {
     )
     error_message = "If use_secret is true, then spn_password must be non-null and non-empty."
   }
-========
->>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/variables.tf
 }
 
 variable "my_publicIP" {
   type        = string
   sensitive   = true
-<<<<<<<< HEAD:terraform/variables.tf
   description = "(Required) public/private IP address to allow access to Key Vault and Storage account"
-========
-  description = "(Required) List of public/private IP addresses to allow access to Key Vault and Storage account"
->>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/variables.tf
 }
 
 variable "keyvault_name" {

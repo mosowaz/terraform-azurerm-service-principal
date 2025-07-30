@@ -1,5 +1,5 @@
 module "service-principal" {
-  source = "git::https://github.com/mosowaz/terraform-azurerm-service-principal/tree/main/terraform?ref=v1.4.0"
+  source = "git::https://github.com/mosowaz/terraform-azurerm-service-principal.git//terraform?ref=v1.4.0"
 
   resource_group = {
     name     = "service_principal"

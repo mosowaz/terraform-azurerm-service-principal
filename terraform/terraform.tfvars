@@ -1,4 +1,3 @@
-<<<<<<<< HEAD:terraform/terraform.tfvars
 resource_group = {
   name     = "service_principal"
   location = "canadacentral"
@@ -8,12 +7,6 @@ use_secret      = true
 use_oidc        = true
 use_certificate = true
 
-========
-use_secret      = true
-use_oidc        = true
-use_certificate = true
-
->>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/terraform.tfvars
 federation = {
   azdo_organization_name = "MosesOwaseye"
   azdo_project_name      = "hub and spokes vnet peering"
