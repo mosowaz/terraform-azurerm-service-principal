@@ -7,9 +7,12 @@ This module also creates Azure Key Vault to store Service Principal secret value
 
 Set one or more of the service principal input variable to "true" to use for authentication.\
 <<<<<<<< HEAD:_doc.md
+<<<<<<<< HEAD:_doc.md
 
 ========
 >>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/_doc.md
+========
+>>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb:service_principal/_doc.md
 ```hcl
 use_secret      = false
 use_oidc        = true 

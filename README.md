@@ -47,4 +47,7 @@ A collection of terraform modules for creating azuredevops project with option o
 - [Service Connection to Github](service_connection_github/)
 
 - [Service Connection to Azure Portal](service_connection_azurerm/)
+<<<<<<< HEAD
 >>>>>>> 8632c12 (fix: modify variable names, and update example.tf)
+=======
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb

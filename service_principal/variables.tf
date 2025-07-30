@@ -20,6 +20,7 @@ variable "use_oidc" {
   description = "(Required) Should the Service Principal be used to authenticate with OpenID Connect?"
 }
 
+<<<<<<< HEAD
 <<<<<<<< HEAD:terraform/variables.tf
 variable "use_certificate" {
   type        = bool
@@ -28,6 +29,8 @@ variable "use_certificate" {
 
 ========
 >>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/variables.tf
+=======
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
 variable "federation" {
   type = object({
     azdo_organization_name = optional(string, null)
@@ -40,6 +43,7 @@ variable "federation" {
     (Optional) This block is required if use_oidc = true
     This assumes you already have a repository and a project in your organization.
   DESCRIPTION
+<<<<<<< HEAD
 
   validation {
     condition = (
@@ -52,10 +56,13 @@ variable "federation" {
     )
     error_message = "If use_oidc is true, then azdo_organization_name, azdo_project_name, and azdo_repo_name must all be non-null and non-empty."
   }
+=======
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
 }
 
 variable "certificate_validity_period_hours" {
   type        = number
+<<<<<<< HEAD
 <<<<<<<< HEAD:terraform/variables.tf
   default     = null
   description = "(Optional) Number of hours the client certificate will be valid for. This is required if use_certificate = true"
@@ -70,6 +77,8 @@ variable "certificate_validity_period_hours" {
 }
 
 ========
+=======
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
   default     = 1440
   description = "(Optional) Number of days the client certificate will be valid for. This is required if use_certificate = true"
 }
@@ -79,7 +88,10 @@ variable "use_certificate" {
   description = "(Required) Should the Service Principal be used to authenticate with Client Certificate?"
 }
 
+<<<<<<< HEAD
 >>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/variables.tf
+=======
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
 variable "client_certificate" {
   type = object({
     common_name  = optional(string, null)
@@ -90,11 +102,14 @@ variable "client_certificate" {
     (Optional) This block is required if use_certificate = true
     common_name: Distinguished name (e.g myapp.example.com). organization: Distinguished name (i.e YOUR_ORGANIZATION_NAME)
   DESCRIPTION
+<<<<<<< HEAD
 
   validation {
     condition     = var.use_certificate == false || (var.client_certificate != null && var.client_certificate != "")
     error_message = "If use_certificate is true, then client_certificate must be non-null and non-empty."
   }
+=======
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
 }
 
 variable "app_display_name" {
@@ -135,6 +150,7 @@ variable "spn_password" {
   })
   default     = {}
   description = "(Optional) Object references to the Service Principal password"
+<<<<<<< HEAD
 <<<<<<<< HEAD:terraform/variables.tf
 
   validation {
@@ -145,16 +161,22 @@ variable "spn_password" {
   }
 ========
 >>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/variables.tf
+=======
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
 }
 
 variable "my_publicIP" {
   type        = string
   sensitive   = true
+<<<<<<< HEAD
 <<<<<<<< HEAD:terraform/variables.tf
   description = "(Required) public/private IP address to allow access to Key Vault and Storage account"
 ========
   description = "(Required) List of public/private IP addresses to allow access to Key Vault and Storage account"
 >>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/variables.tf
+=======
+  description = "(Required) List of public/private IP addresses to allow access to Key Vault and Storage account"
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
 }
 
 variable "keyvault_name" {
@@ -166,6 +188,7 @@ variable "spn_secret_name" {
   type        = string
   default     = "spn_secret_name"
   description = "(Optional) Name given to the service principal's secret value. Required if use_secret = true"
+<<<<<<< HEAD
 
   validation {
     condition = (
@@ -173,12 +196,15 @@ variable "spn_secret_name" {
     )
     error_message = "If use_secret is true, then spn_secret_name must be non-null and non-empty."
   }
+=======
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
 }
 
 variable "spn_client_id_name" {
   type        = string
   default     = "spn_client_id"
   description = "(Optional) Name given to the service principal's client ID. Required if use_secret = true"
+<<<<<<< HEAD
 
   validation {
     condition = (
@@ -186,6 +212,8 @@ variable "spn_client_id_name" {
     )
     error_message = "If use_secret is true, then spn_client_id_name must be non-null and non-empty."
   }
+=======
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
 }
 
 variable "spn_tenant_id_name" {
@@ -198,6 +226,7 @@ variable "spn_subscription_id_name" {
   description = "(Required) Name given to the service principal's subscription ID"
 }
 
+<<<<<<< HEAD
 variable "create_storage_account" {
   type        = bool
   default     = true
@@ -207,10 +236,19 @@ variable "storage_account_name" {
   type        = string
   default     = "tfstate"
   description = "(Optional) Name of the storage account created for the SPN"
+=======
+variable "storage_account_name" {
+  type        = string
+  description = "(Required) Name of the storage account created for the SPN"
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
 }
 
 variable "storage_container_name" {
   type        = string
+<<<<<<< HEAD
   default     = "tfstates-container"
   description = "(Optional) Name of the storage container created for the SPN"
+=======
+  description = "(Required) Name of the storage container created for the SPN"
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
 }

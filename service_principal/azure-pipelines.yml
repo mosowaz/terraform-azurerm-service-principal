@@ -29,6 +29,7 @@ variables:
 - name: SKIPPED_CHECKS
   value: 'CKV_TF_1,CKV_AZURE_249'
 
+<<<<<<< HEAD
   # Using tf-plan.yml or ci_template pipeline based on branch condition
 stages: 
 - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:  
@@ -59,5 +60,21 @@ stages:
       TerraformDirectory: 'service_principal'
       infrastructure: 'spn_identity'
 >>>>>>>> 8632c12 (fix: modify variable names, and update example.tf):service_principal/azure-pipelines.yml
+=======
+  # Using build_template or ci_template pipeline based on branch condition
+stages: 
+- ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:  
+  - template: pipeline_templates/release_template.yml
+    parameters:  
+      TerraformDirectory: 'service_principal'
+      infrastructure: 'spn_identity'
+      tfplan: 'spn.tfplan'
+      BlobName: 'spn.tfstate'
+- ${{ else }}:
+  - template: pipeline_templates/build_template.yml
+    parameters: 
+      TerraformDirectory: 'service_principal'
+      infrastructure: 'spn_identity'
+>>>>>>> ca9b2ccee3a82c3a350da8cf43ffc2ba10a60cdb
       tfplan: 'spn.tfplan'
       BlobName: 'spn.tfstate'
