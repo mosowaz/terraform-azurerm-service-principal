@@ -12,3 +12,5 @@
 *tfplan*
 
 .infracost/*
+
+**/backend.tf
