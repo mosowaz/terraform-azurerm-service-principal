@@ -47,16 +47,16 @@ module "avm-res-keyvault-vault" {
     }
   }
   secrets_value = {
-    secret          = try(azuread_service_principal_password.spn_secret[0].value, null)
+    secret          = length(azuread_service_principal_password.spn_secret) > 0 ? azuread_service_principal_password.spn_secret[0].value : ""
     client-id       = try(azuread_application.spn_application.client_id, null)
     tenant-id       = try(azuread_service_principal.service_principal.application_tenant_id, null)
     subscription-id = try(data.azurerm_subscription.primary.subscription_id, null)
-    certificate     = try(tls_self_signed_cert.signed_cert[0].cert_pem, null)
+    certificate     = length(tls_self_signed_cert.signed_cert) > 0 ? tls_self_signed_cert.signed_cert[0].cert_pem : ""
   }
   network_acls = {
     bypass         = "AzureServices"
     default_action = "Deny"
-    ip_rules       = try([var.my_publicIP], ["${data.http.ip.response_body}"])
+    ip_rules       = var.my_publicIP != "" ? [var.my_publicIP] : ["${data.http.ip.response_body}/24"]
     # ip_rules       = ["${data.http.ip.response_body}/24"]
   }
 }
@@ -96,7 +96,7 @@ module "avm-res-storage-storageaccount" {
   network_rules = {
     bypass         = ["AzureServices"]
     default_action = "Deny"
-    ip_rules       = try([var.my_publicIP], ["${data.http.ip.response_body}"])
+    ip_rules       = var.my_publicIP != "" ? [var.my_publicIP] : ["${data.http.ip.response_body}/24"]
     # ip_rules       = ["${data.http.ip.response_body}/24"]
   }
   allow_nested_items_to_be_public = false

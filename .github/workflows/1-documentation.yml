@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - '*'
+    tags:
+      - '*'
     paths: 
       - '**'
 
@@ -43,7 +45,8 @@ jobs:
           git add .
           git config user.name "mosowaz"
           git config user.email "mosowaz@users.noreply.github.com"
-          git commit -m "${{ steps.last_commit.outputs.message }}" && git push --force
+          git commit -m "${{ steps.last_commit.outputs.message }}" || true 
+          git push --force
 
       - name: Trigger a run in Azure pipelines
         uses: Azure/pipelines@v1

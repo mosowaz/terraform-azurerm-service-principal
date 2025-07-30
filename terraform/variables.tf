@@ -92,8 +92,9 @@ variable "description" {
 
 variable "use_existing" {
   type        = bool
+  default     = true
   description = <<-DESCRIPTION
-    (Required) When true, any existing service principal linked to the same application will be automatically imported. 
+    (Optional) When true, any existing service principal linked to the same application will be automatically imported. 
     When false, an import error will be raised for any pre-existing service principal.
   DESCRIPTION
 }
@@ -128,7 +129,8 @@ variable "spn_password" {
 variable "my_publicIP" {
   type        = string
   sensitive   = true
-  description = "(Required) public/private IP address to allow access to Key Vault and Storage account"
+  default     = ""
+  description = "(Optional) public/private IP address to allow access to Key Vault and Storage account"
 }
 
 variable "keyvault_name" {

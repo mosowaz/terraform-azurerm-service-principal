@@ -34,7 +34,7 @@ module "service-principal" {
 
   iam_roles = ["Contributor", "Role Based Access Control Administrator", "Storage Blob Data Contributor", "Key Vault Administrator"]
 
-  spn_password {
+  spn_password = {
     display_name = "Automation account"
     # password is automatically stored in keyvault
   }
