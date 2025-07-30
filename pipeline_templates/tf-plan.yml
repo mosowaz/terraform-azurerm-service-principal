@@ -50,18 +50,18 @@ stages:
       workingDirectory: ${{parameters.TerraformDirectory}}
       continueOnError: false
 
-    - bash: touch tfsec.sarif
-      displayName: 'create tfsec.sarif file for upcoming step'
-      workingDirectory: $(common.TestResultsDirectory)
+    # - bash: touch tfsec.sarif
+    #   displayName: 'create tfsec.sarif file for upcoming step'
+    #   workingDirectory: $(common.TestResultsDirectory)
  
-    - task: tfsec@1
-      inputs:
-        version: v1.28.13
-        debug: true
-        publishTestResults: true
-        args: --format sarif --debug --soft-fail --concise-output --out $(common.TestResultsDirectory)/tfsec.sarif
-        dir: '${{parameters.TerraformDirectory}}'
-      displayName: 'code scanning with tfsec'
+    # - task: tfsec@1
+    #   inputs:
+    #     version: v1.28.13
+    #     debug: true
+    #     publishTestResults: true
+    #     args: --format sarif --debug --soft-fail --concise-output --out $(common.TestResultsDirectory)/tfsec.sarif
+    #     dir: '${{parameters.TerraformDirectory}}'
+    #   displayName: 'code scanning with tfsec'
 
     - task: PublishPipelineArtifact@1
       inputs:
@@ -70,9 +70,9 @@ stages:
         publishLocation: 'pipeline' # upload artifact to pipeline
       displayName: 'Publish tfplan artifact'
 
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(common.TestResultsDirectory)'
-        artifact: 'TestResults' # vulnerability results published
-        publishLocation: 'pipeline' # upload artifact to pipeline
-      displayName: 'Publish TestResults'
+    # - task: PublishPipelineArtifact@1
+    #   inputs:
+    #     targetPath: '$(common.TestResultsDirectory)'
+    #     artifact: 'TestResults' # vulnerability results published
+    #     publishLocation: 'pipeline' # upload artifact to pipeline
+    #   displayName: 'Publish TestResults'
