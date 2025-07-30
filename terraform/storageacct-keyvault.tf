@@ -56,12 +56,13 @@ module "avm-res-keyvault-vault" {
   network_acls = {
     bypass         = "AzureServices"
     default_action = "Deny"
-    ip_rules       = try([var.my_publicIP], ["${data.http.ip.response_body}/24"])
+    ip_rules       = try([var.my_publicIP], ["${data.http.ip.response_body}"])
     # ip_rules       = ["${data.http.ip.response_body}/24"]
   }
 }
 
 module "avm-res-storage-storageaccount" {
+  count  = var.create_storage_account ? 1 : 0
   source = "git::https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount?ref=daf3cad"
 
   location                 = azurerm_resource_group.rg.location
@@ -95,7 +96,7 @@ module "avm-res-storage-storageaccount" {
   network_rules = {
     bypass         = ["AzureServices"]
     default_action = "Deny"
-    ip_rules       = try([var.my_publicIP], ["${data.http.ip.response_body}/24"])
+    ip_rules       = try([var.my_publicIP], ["${data.http.ip.response_body}"])
     # ip_rules       = ["${data.http.ip.response_body}/24"]
   }
   allow_nested_items_to_be_public = false
