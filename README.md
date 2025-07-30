@@ -1,5 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
-[![Build Status](https://dev.azure.com/MosesOwaseye/Service%20Principal/_apis/build/status%2FDeploy%20Resources?branchName=main)](https://dev.azure.com/MosesOwaseye/Service%20Principal/_build/latest?definitionId=39&branchName=main)
+[![Build Status](https://dev.azure.com/MosesOwaseye/Service%20Principal/_apis/build/status%2FDeploy%20Resources?branchName=dev)](https://dev.azure.com/MosesOwaseye/Service%20Principal/_build/latest?definitionId=39&branchName=dev)
 
 # Terraform Azure Service Principal Module
 This module creates Service Principal (with client secrets, OIDC, or client certificate).\

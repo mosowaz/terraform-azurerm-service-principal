@@ -1,12 +1,12 @@
 resource "azuread_application" "spn_application" {
   display_name = var.app_display_name
-  owners       = try([data.azuread_user.primary_owner.object_id, data.azuread_service_principal.spn.object_id], "")
+  owners       = try([data.azurerm_client_config.current.object_id], "")
 }
 
 resource "azuread_service_principal" "service_principal" {
   client_id                    = azuread_application.spn_application.client_id
   app_role_assignment_required = true
-  owners                       = try([data.azuread_user.primary_owner.object_id, data.azuread_service_principal.spn.object_id], "")
+  owners                       = try([data.azurerm_client_config.current.object_id], "")
   description                  = try(var.description, null)
   use_existing                 = try(var.use_existing, false)
 }
@@ -18,6 +18,14 @@ resource "azurerm_role_assignment" "iam_roles" {
   scope                = azurerm_resource_group.rg.id
   role_definition_name = each.value
   principal_id         = azuread_service_principal.service_principal.object_id
+}
+
+resource "azurerm_role_assignment" "iam_roles_user" {
+  for_each = toset(var.iam_roles)
+
+  scope                = azurerm_resource_group.rg.id
+  role_definition_name = each.value
+  principal_id         = data.azurerm_client_config.current.object_id
 }
 
 # Use to retrieve Microsoft Graph cliend_id

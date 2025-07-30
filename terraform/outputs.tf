@@ -27,19 +27,16 @@ output "application_client_id" {
 
 # client certificate
 output "spn_client_cert" {
-  value     = tls_self_signed_cert.signed_cert[0].cert_pem
+  value = length(tls_self_signed_cert.signed_cert) > 0 ? tls_self_signed_cert.signed_cert[0].cert_pem : ""
   sensitive = true
 }
 
 output "end_date" {
-  value = azuread_service_principal_certificate.spn_certificate[0].end_date
+  value = ( length(azuread_service_principal_certificate.spn_certificate) > 0 ?
+          azuread_service_principal_certificate.spn_certificate[0].end_date : "" )
 }
 
 output "start_date" {
-  value = azuread_service_principal_certificate.spn_certificate[0].start_date
-}
-
-output "tls_self_signed_cert" {
-  value     = tls_self_signed_cert.signed_cert[0].cert_pem
-  sensitive = true
+  value = ( length(azuread_service_principal_certificate.spn_certificate) > 0 ?
+          azuread_service_principal_certificate.spn_certificate[0].start_date : "" )
 }
