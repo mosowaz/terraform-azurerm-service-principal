@@ -58,7 +58,7 @@ module "service-principal" {
 
   iam_roles = ["Contributor", "Role Based Access Control Administrator", "Storage Blob Data Contributor", "Key Vault Administrator"]
 
-  spn_password {
+  spn_password = {
     display_name = "Automation account"
     # password is automatically stored in keyvault
   }
@@ -124,7 +124,6 @@ module "service-principal" {
 | <a name="input_app_role_ids"></a> [app\_role\_ids](#input\_app\_role\_ids) | (Required) API permissions required by the service principal running terraform apply | `list(string)` | n/a | yes |
 | <a name="input_iam_roles"></a> [iam\_roles](#input\_iam\_roles) | (Required) IAM roles required for the Service Principal to perform operations | `list(string)` | n/a | yes |
 | <a name="input_keyvault_name"></a> [keyvault\_name](#input\_keyvault\_name) | (Required) Name of the Key Vault | `string` | n/a | yes |
-| <a name="input_my_publicIP"></a> [my\_publicIP](#input\_my\_publicIP) | (Required) public/private IP address to allow access to Key Vault and Storage account | `string` | n/a | yes |
 | <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | (Required) Name and location of resource group | <pre>object({<br/>    name     = string<br/>    location = string<br/>  })</pre> | n/a | yes |
 | <a name="input_spn_subscription_id_name"></a> [spn\_subscription\_id\_name](#input\_spn\_subscription\_id\_name) | (Required) Name given to the service principal's subscription ID | `string` | n/a | yes |
 | <a name="input_spn_tenant_id_name"></a> [spn\_tenant\_id\_name](#input\_spn\_tenant\_id\_name) | (Required) Name given to the service principal's tenant ID | `string` | n/a | yes |
@@ -138,6 +137,7 @@ module "service-principal" {
 | <a name="input_create_storage_account"></a> [create\_storage\_account](#input\_create\_storage\_account) | (Optional) Should storage account be created for storing terraform states | `bool` | `true` | no |
 | <a name="input_description"></a> [description](#input\_description) | (Optional) Description of the Service Principal being created | `string` | `"Service principal for automation"` | no |
 | <a name="input_federation"></a> [federation](#input\_federation) | (Optional) This block is required if use\_oidc = true<br/>This assumes you already have a repository and a project in your organization. | <pre>object({<br/>    azdo_organization_name = optional(string, null)<br/>    azdo_project_name      = optional(string, null)<br/>    azdo_repo_name         = optional(string, null)<br/>    azdo_branch            = optional(string, "*")<br/>  })</pre> | `{}` | no |
+| <a name="input_my_publicIP"></a> [my\_publicIP](#input\_my\_publicIP) | (Optional) public/private IP address to allow access to Key Vault and Storage account | `string` | `""` | no |
 | <a name="input_spn_client_id_name"></a> [spn\_client\_id\_name](#input\_spn\_client\_id\_name) | (Optional) Name given to the service principal's client ID. Required if use\_secret = true | `string` | `"spn_client_id"` | no |
 | <a name="input_spn_password"></a> [spn\_password](#input\_spn\_password) | (Optional) Object references to the Service Principal password | <pre>object({<br/>    display_name = optional(string, null)<br/>    start_date   = optional(any, null)<br/>    end_date     = optional(any, null)<br/>  })</pre> | `{}` | no |
 | <a name="input_spn_secret_name"></a> [spn\_secret\_name](#input\_spn\_secret\_name) | (Optional) Name given to the service principal's secret value. Required if use\_secret = true | `string` | `"spn_secret_name"` | no |
