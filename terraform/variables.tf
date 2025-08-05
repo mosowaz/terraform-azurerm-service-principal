@@ -101,7 +101,8 @@ variable "use_existing" {
 
 variable "app_role_ids" {
   type        = list(string)
-  description = "(Required) API permissions required by the service principal running terraform apply"
+  default = [""]
+  description = "(Optional) API permissions required by the service principal running terraform apply"
 }
 
 variable "iam_roles" {
@@ -124,70 +125,4 @@ variable "spn_password" {
     )
     error_message = "If use_secret is true, then spn_password must be non-null and non-empty."
   }
-}
-
-variable "my_publicIP" {
-  type        = string
-  sensitive   = true
-  default     = ""
-  description = "(Optional) public/private IP address to allow access to Key Vault and Storage account"
-}
-
-variable "keyvault_name" {
-  type        = string
-  description = "(Required) Name of the Key Vault"
-}
-
-variable "spn_secret_name" {
-  type        = string
-  default     = "spn_secret_name"
-  description = "(Optional) Name given to the service principal's secret value. Required if use_secret = true"
-
-  validation {
-    condition = (
-      var.use_secret == false || (var.spn_secret_name != null && var.spn_secret_name != "")
-    )
-    error_message = "If use_secret is true, then spn_secret_name must be non-null and non-empty."
-  }
-}
-
-variable "spn_client_id_name" {
-  type        = string
-  default     = "spn_client_id"
-  description = "(Optional) Name given to the service principal's client ID. Required if use_secret = true"
-
-  validation {
-    condition = (
-      var.use_secret == false || (var.spn_client_id_name != null && var.spn_client_id_name != "")
-    )
-    error_message = "If use_secret is true, then spn_client_id_name must be non-null and non-empty."
-  }
-}
-
-variable "spn_tenant_id_name" {
-  type        = string
-  description = "(Required) Name given to the service principal's tenant ID"
-}
-
-variable "spn_subscription_id_name" {
-  type        = string
-  description = "(Required) Name given to the service principal's subscription ID"
-}
-
-variable "create_storage_account" {
-  type        = bool
-  default     = true
-  description = "(Optional) Should storage account be created for storing terraform states"
-}
-
-variable "storage_account_name" {
-  type        = string
-  default     = "tfstate"
-  description = "(Optional) Name of the storage account created for the SPN"
-}
-
-variable "storage_container_name" {
-  type        = string
-  default     = "tfstates-container"
-  description = "(Optional) Name of the storage container created for the SPN"
 }

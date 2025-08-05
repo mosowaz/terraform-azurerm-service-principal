@@ -1,5 +1,5 @@
 module "service-principal" {
-  source = "git::https://github.com/mosowaz/terraform-azurerm-service-principal.git//terraform?ref=v1.4.0"
+  source = "git::https://github.com/mosowaz/terraform-azurerm-service-principal.git//terraform?ref=v1.5.0"
 
   resource_group = {
     name     = "service_principal"
@@ -30,22 +30,14 @@ module "service-principal" {
   description                       = var.description
   use_existing                      = true
 
-  app_role_ids = var.app_role_ids
+  app_role_ids = ["bf7b1a76-6e77-406b-b258-bf5c7720e98f",] # (Optional) API permission (Group.Create)
 
-  iam_roles = ["Contributor", "Role Based Access Control Administrator", "Storage Blob Data Contributor", "Key Vault Administrator"]
+  iam_roles = ["Contributor",] # List of roles for SPN
+  # default scope is resource group
 
   spn_password = {
     display_name = "Automation account"
-    # password is automatically stored in keyvault
   }
-
-  # (Optional) This is required only if use_secret = true
-  spn_secret_name          = "SPN-client-secret"
-  spn_client_id_name       = "SPN-client-id"
-  spn_tenant_id_name       = "SPN-tenant-id"
-  spn_subscription_id_name = "SPN-subscription-id"
-
-  keyvault_name = User_defined_string
 }
 
   

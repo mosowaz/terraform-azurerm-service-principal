@@ -25,7 +25,7 @@ resource "azurerm_role_assignment" "iam_roles_user" {
 
   scope                = azurerm_resource_group.rg.id
   role_definition_name = each.value
-  principal_id         = data.azurerm_client_config.current.object_id
+  principal_id         = try(data.azurerm_client_config.current.object_id, "")
 }
 
 # Use to retrieve Microsoft Graph cliend_id
@@ -37,6 +37,6 @@ data "azuread_service_principal" "msgraph_api" {
 resource "azuread_application_api_access" "api_permission" {
   application_id = azuread_application.spn_application.id
   api_client_id  = data.azuread_service_principal.msgraph_api.client_id # "00000003-0000-0000-c000-000000000000" 
-  role_ids       = var.app_role_ids
+  role_ids       = try(var.app_role_ids, "")
 }
 
