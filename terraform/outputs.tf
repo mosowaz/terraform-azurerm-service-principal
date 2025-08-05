@@ -1,13 +1,20 @@
-output "service_principal_id" {
-  value = azuread_service_principal.service_principal.id
-}
-
 output "service_principal_object_id" {
   value = azuread_service_principal.service_principal.object_id
 }
 
+# Client ID for the application
+output "application_client_id" {
+  value = azuread_application.spn_application.client_id
+}
+
+# Tenant ID of associated application
+output "service_principal_app_tenant_id" {
+  value = azuread_service_principal.service_principal.application_tenant_id
+}
+
+# Service principal secret value 
 output "service_principal_secret_value" {
-  value     = azuread_service_principal_password.spn_secret[0].value
+  value     = length(azuread_service_principal_password.spn_secret) > 0 ? azuread_service_principal_password.spn_secret[0].value : ""
   sensitive = true
 }
 
@@ -18,11 +25,6 @@ output "application_id" {
 # Application's object ID
 output "application_object_id" {
   value = azuread_application.spn_application.object_id
-}
-
-# Client ID for the application
-output "application_client_id" {
-  value = azuread_application.spn_application.client_id
 }
 
 # client certificate
